@@ -302,7 +302,7 @@ def insertAluno():
                 "INSERT INTO heroku_3624ff9c487b5c5.cadastro_aluno (Nome, RG, CPF, Data_Nascimento, Sexo, Nome_pai, Nome_mae, Endereco, Telefone, email, senha) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
                 (nome,rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha))
             mysql.connection.commit()
-            return render_template('login.html')
+            return render_template('home.html')
             
         except:
             print('deu erro')
@@ -330,7 +330,7 @@ def insertProfessor():
                 (nome,formacao, dt_nasc,cpf, rg, end, sexo,tel, email, senha, disciplina)
             )
             mysql.connection.commit()
-            return render_template('login.html')
+            return render_template('home.html')
             
         except Exception as e:
             print(f'deu erro {e}')
