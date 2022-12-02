@@ -76,7 +76,7 @@ def calendario():
 
 @app.route('/chat', methods = ['POST', 'GET'])
 def chat():
-    nomes = [];
+    nomes = []
     nifs = []
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT NIF, Nome, url_foto from cadastro_professor')
@@ -117,8 +117,7 @@ def perfilAluno():
             senha = request.form['senha']
             nm_pai =  request.form['nome_pai']
             nm_mae =  request.form['nome_mae']
-            cursor= mysql.connection.cursor()
-            
+            cursor= mysql.connection.cursor()  
             sql_update_qr =  """Update heroku_3624ff9c487b5c5.cadastro_aluno set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s,Nome_pai=%s, Nome_mae=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s where RA = %s""" 
             data_qr = (nome, rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha, ra_)
             cursor.execute(sql_update_qr, data_qr)
@@ -160,35 +159,34 @@ def perfilProfessor():
         except Exception as e :
             print('erro: ', e) 
 
-    return render_template('home.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][5],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][3], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][2],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
+    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][5],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][3], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][2],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
 
-@app.route('/posts')
-def posts():
-    return render_template('posts.html')
-
-@app.route('/idm')
-def idm():
-    curso = 'idm'
-    divs = get_data(curso = curso) # fazer um parametreo no get_data p receber o curso no select
-    usuario = get_user()
-    print(usuario, 'usuario tela acervo')
-    return render_template('idm.html', divs = divs, usuario = usuario)
 
 @app.route('/download/<filename>', methods = ['GET'])
 def get_file(filename): 
     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
 
-
 @app.route('/tarefas/<tarefa>')
 def tarefas(tarefa):
     tarefa = tarefa
-    divs = get_data(tarefa) # fazer um parametreo no get_data p receber o curso no select
-    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario)
+    print('tarefa')
+    filename = get_file(tarefa)
+    data = f'..\\static\\uploads\\{filename[0][1]}'
+    usuario = get_user()
+    divs = get_data(curso = tarefa)
+    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename, nomee=data)
 
 def get_data(curso):
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * from acervo_{}".format(curso))
     rows = cursor.fetchall()    
+    return rows
+
+def get_file(curso):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * from acervo_{} where disciplina ='{}'".format(curso, curso))
+    rows = cursor.fetchall()    
+    print(rows)
     return rows
 
 def get_user():         
@@ -277,10 +275,8 @@ def login_screen():
                     return render_template('login.html', data=msg)
             except Exception as e:
                     msg = 'erro '                
-                    return render_template('login.html', data=msg, erro = e)
-                
+                    return render_template('login.html', data=msg, erro = e)              
     return render_template('login.html')
-
 
 @app.route('/insert', methods = ['POST'])
 def insertAluno():
@@ -302,7 +298,7 @@ def insertAluno():
                 "INSERT INTO heroku_3624ff9c487b5c5.cadastro_aluno (Nome, RG, CPF, Data_Nascimento, Sexo, Nome_pai, Nome_mae, Endereco, Telefone, email, senha) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
                 (nome,rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha))
             mysql.connection.commit()
-            return render_template('home.html')
+            return render_template('login.html')
             
         except:
             print('deu erro')
@@ -330,7 +326,7 @@ def insertProfessor():
                 (nome,formacao, dt_nasc,cpf, rg, end, sexo,tel, email, senha, disciplina)
             )
             mysql.connection.commit()
-            return render_template('home.html')
+            return render_template('login.html')
             
         except Exception as e:
             print(f'deu erro {e}')
