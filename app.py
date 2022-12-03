@@ -36,7 +36,6 @@ app.secret_key = "emanuel-gatao"
 # app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
 
 io = SocketIO(app)
-
 # lists data
 dados_aluno = []
 dados_prof = []
@@ -44,14 +43,11 @@ cad = []
 usr = []
 
 UPLOAD_FOLDER = 'static/uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-  
-  
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'pdf', 'docx'])
   
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 # -- routes
 @app.route('/')
 def login():
@@ -162,18 +158,29 @@ def perfilProfessor():
     return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][5],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][3], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][2],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
 
 
-@app.route('/download/<filename>', methods = ['GET'])
-def get_file(filename): 
-    return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+# @app.route('/download/<filename>', methods = ['GET'])
+# def get_file(filename): 
+#     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+
+# @app.route('/download/<filename>', methods = ['GET'])
+# def get_file(filename): 
+
+#     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+
+# # def get_file(filename): 
+#     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+
 
 @app.route('/tarefas/<tarefa>')
 def tarefas(tarefa):
     tarefa = tarefa
-    print('tarefa')
     filename = get_file(tarefa)
+    print(filename)
+   
+    print(filename == '', '-----------')
     data = f'..\\static\\uploads\\{filename[0][1]}'
     usuario = get_user()
-    divs = get_data(curso = tarefa)
+    divs = get_data(curso = tarefa) # fazer um parametreo no get_data p receber o curso no select
     return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename, nomee=data)
 
 def get_data(curso):
@@ -222,7 +229,7 @@ def upload_acervo():
                 print(sz, ' é o tamnanho do arquivo')
             print(file)
         cur.close()   
-    return redirect('/{}'.format(disc))
+    return redirect('tarefas/{}'.format(disc))
 
 def get_info_professor(email, senha):
     cursor= mysql.connection.cursor()
