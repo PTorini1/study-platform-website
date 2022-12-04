@@ -2,7 +2,15 @@
 <div class="flex-login">
     <div class="login">
         <h1 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">LOGIN</h1>
-
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes>
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+              </ul>
+          {% endif %}
+        {% endwith %}
         <form action = "{{ url_for('login_screen') }}" method = "post">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Endereço de Email</label>
@@ -37,6 +45,4 @@
           
     </div>
 </div>
-{{data}}
-{{erro}}
 {% include 'footer.html' %}

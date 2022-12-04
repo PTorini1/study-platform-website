@@ -92,14 +92,14 @@ def enviaMesagem():
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/perfilAluno', methods = ['POST'])
+@app.route('/perfilAluno', methods = ['POST', 'GET'])
 def perfilAluno():
     print(dados_aluno)
     email = dados_aluno[0][10]
     senha= dados_aluno[0][11]
     ra_ = dados_aluno[0][0]
     get_info_aluno(email=email, senha= senha)
-
+    print(dados_aluno)
     if request.method == 'POST': 
         try: 
             nome = request.form['nome']
@@ -119,7 +119,7 @@ def perfilAluno():
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
             cursor.close()
-
+            return redirect('/')
         except Exception as e :
             print('erro: ', e) 
 
@@ -152,32 +152,17 @@ def perfilProfessor():
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
             cursor.close()
+            return redirect('/')
         except Exception as e :
             print('erro: ', e) 
 
     return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][5],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][3], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][2],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
 
 
-# @app.route('/download/<filename>', methods = ['GET'])
-# def get_file(filename): 
-#     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
-
-# @app.route('/download/<filename>', methods = ['GET'])
-# def get_file(filename): 
-
-#     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
-
-# # def get_file(filename): 
-#     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
-
-
 @app.route('/tarefas/<tarefa>')
 def tarefas(tarefa):
     tarefa = tarefa
     filename = get_file(tarefa)
-    print(filename)
-   
-    print(filename == '', '-----------')
     data = f'..\\static\\uploads\\{filename[0][1]}'
     usuario = get_user()
     divs = get_data(curso = tarefa) # fazer um parametreo no get_data p receber o curso no select
@@ -258,31 +243,27 @@ def login_screen():
             dados = get_info_professor(email=email, senha=senha)
             dados_prof.append(dados)
             usr.append('professor')
+
             try: 
-                if dados[9]== email and dados[10] == senha:
-                    print('login de professor')  
+                if dados[9]== email and dados[10] == senha:               
                     return redirect(url_for('home'))
-                else: 
-                    msg = 'login nao confere'
-                return render_template('login.html', data=msg)
             except Exception as e:
-                msg = 'erro '                
-                return render_template('login.html', data=msg, erro = e)
+                flash(f'Credenciais não encontradas.')                              
+                return render_template('login.html')
 
         elif 'aluno' in email:
             dados = get_info_aluno(email=email, senha=senha)
             dados_aluno.append(dados)
             usr.append('aluno')
             try: 
-                if dados[10]== email and dados[11] == senha:
-                    print('login de aluno')  
+                if dados[10]== email and dados[11] == senha: 
                     return redirect(url_for('home'))  
-                else: 
-                    msg = 'login nao confere'
-                    return render_template('login.html', data=msg)
             except Exception as e:
-                    msg = 'erro '                
-                    return render_template('login.html', data=msg, erro = e)              
+                flash(f'Credenciais não encontradas.')                              
+                return render_template('login.html')     
+        else:
+            flash('Insira uma conta de aluno ou professor')
+            return render_template('login.html')     
     return render_template('login.html')
 
 @app.route('/insert', methods = ['POST'])
