@@ -155,8 +155,7 @@ def perfilProfessor():
             return redirect('/')
         except Exception as e :
             print('erro: ', e) 
-
-    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][5],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][3], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][2],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
+    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
 
 
 @app.route('/tarefas/<tarefa>')
@@ -317,7 +316,7 @@ def insertProfessor():
             return render_template('login.html')
             
         except Exception as e:
-            print(f'deu erro {e}')
+            flash(f'deu erro {e}')
             return render_template('cadastroProfessor.html')
 
 @io.on('sendMessage')

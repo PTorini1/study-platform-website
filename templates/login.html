@@ -4,7 +4,7 @@
         <h1 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;">LOGIN</h1>
         {% with messages = get_flashed_messages() %}
           {% if messages %}
-            <ul class=flashes>
+            <ul>
               {% for message in messages %}
                 <li>{{ message }}</li>
               {% endfor %}
