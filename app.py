@@ -166,14 +166,6 @@ def perfilProfessor():
 def posts():
     return render_template('posts.html')
 
-@app.route('/idm')
-def idm():
-    curso = 'idm'
-    divs = get_data(curso = curso) # fazer um parametreo no get_data p receber o curso no select
-    usuario = get_user()
-    print(usuario, 'usuario tela acervo')
-    return render_template('idm.html', divs = divs, usuario = usuario)
-
 @app.route('/download/<filename>', methods = ['GET'])
 def get_file(filename): 
     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
@@ -182,6 +174,7 @@ def get_file(filename):
 @app.route('/tarefas/<tarefa>')
 def tarefas(tarefa):
     tarefa = tarefa
+    usuario = get_user()
     divs = get_data(tarefa) # fazer um parametreo no get_data p receber o curso no select
     return render_template('tarefaAcervo.html', divs = divs, usuario = usuario)
 
