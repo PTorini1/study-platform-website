@@ -11,10 +11,77 @@
     
 }
 
-/* .card.h-100:hover{
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.301);
-    border-radius: 10px;
-} */
+.container-material, .container-tarefa{
+    display: none;
+    position: fixed;
+    padding: 0;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 3000;
+    align-items: center;
+}
+
+.btn.btn-danger-modal{
+    position: absolute;
+    top: -30px;
+    color: white;
+    text-align: left;
+    font-size: 25px;
+    width: 50px;
+    height: 50px;
+    line-height: 35px;
+    right: -30px;
+    padding-right: 10px !important;
+    border: none;
+    background-color:  rgb(195, 7, 7);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bolder;
+    border-radius: 50%;
+}
+
+.dis{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.diss{
+    font-size: 18px !important;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.material-form{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+.btn.btn-danger-modal:hover{
+    background-color: rgb(187, 7, 7);
+}
+
+.modal-material, .modal-tarefa{
+    position: relative;
+    text-align: center;
+    background-color: white;
+    width: 70vw;
+    border: 10px solid rgb(195, 7, 7);
+    box-shadow: 0px 0px 0px 10px white;
+}
+
+@media screen and (min-width:1300px){
+    .modal-sala1{
+        position: relative;
+        text-align: center;
+        background-color: white;
+        height: 30%;
+        width: 60%;
+        border: 10px solid rgb(130, 7, 7);
+        box-shadow: 0px 0px 0px 10px white;
+    }
+}
+
 
 .comment-button{
     border: none;
@@ -36,7 +103,6 @@
 
 .justify-content-space-between{
     display: flex !important;
-    width:  !important;
     align-items: center;
     justify-content: space-between !important;
 }
