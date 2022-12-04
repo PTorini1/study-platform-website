@@ -241,8 +241,15 @@ a:hover{
 
 #dashboard{
     display: flex;
+    flex-wrap:wrap ;
     width:100%;
     margin: 20px;
+}
+
+@media(max-width:1000px){
+    .chart{
+        width:100%;
+    }
 }
 
 .comunicado{
