@@ -36,7 +36,6 @@ app.secret_key = "emanuel-gatao"
 # app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
 
 io = SocketIO(app)
-
 # lists data
 dados_aluno = []
 dados_prof = []
@@ -44,14 +43,11 @@ cad = []
 usr = []
 
 UPLOAD_FOLDER = 'static/uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-  
-  
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER  
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'pdf', 'docx'])
   
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 # -- routes
 @app.route('/')
 def login():
@@ -76,7 +72,7 @@ def calendario():
 
 @app.route('/chat', methods = ['POST', 'GET'])
 def chat():
-    nomes = [];
+    nomes = []
     nifs = []
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT NIF, Nome, url_foto from cadastro_professor')
@@ -96,14 +92,14 @@ def enviaMesagem():
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/perfilAluno', methods = ['POST'])
+@app.route('/perfilAluno', methods = ['POST', 'GET'])
 def perfilAluno():
     print(dados_aluno)
     email = dados_aluno[0][10]
     senha= dados_aluno[0][11]
     ra_ = dados_aluno[0][0]
     get_info_aluno(email=email, senha= senha)
-
+    print(dados_aluno)
     if request.method == 'POST': 
         try: 
             nome = request.form['nome']
@@ -117,14 +113,13 @@ def perfilAluno():
             senha = request.form['senha']
             nm_pai =  request.form['nome_pai']
             nm_mae =  request.form['nome_mae']
-            cursor= mysql.connection.cursor()
-            
+            cursor= mysql.connection.cursor()  
             sql_update_qr =  """Update heroku_3624ff9c487b5c5.cadastro_aluno set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s,Nome_pai=%s, Nome_mae=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s where RA = %s""" 
             data_qr = (nome, rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha, ra_)
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
             cursor.close()
-
+            return redirect('/')
         except Exception as e :
             print('erro: ', e) 
 
@@ -157,38 +152,32 @@ def perfilProfessor():
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
             cursor.close()
+            return redirect('/')
         except Exception as e :
             print('erro: ', e) 
-
-    return render_template('home.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][5],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][3], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][2],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
-
-@app.route('/posts')
-def posts():
-    return render_template('posts.html')
-
-@app.route('/idm')
-def idm():
-    curso = 'idm'
-    divs = get_data(curso = curso) # fazer um parametreo no get_data p receber o curso no select
-    usuario = get_user()
-    print(usuario, 'usuario tela acervo')
-    return render_template('idm.html', divs = divs, usuario = usuario)
-
-@app.route('/download/<filename>', methods = ['GET'])
-def get_file(filename): 
-    return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
 
 
 @app.route('/tarefas/<tarefa>')
 def tarefas(tarefa):
     tarefa = tarefa
-    divs = get_data(tarefa) # fazer um parametreo no get_data p receber o curso no select
-    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario)
+    filename = get_file(tarefa)
+    data = f'..\\static\\uploads\\{filename[0][1]}'
+    usuario = get_user()
+    divs = get_data(curso = tarefa) # fazer um parametreo no get_data p receber o curso no select
+    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename, nomee=data)
 
 def get_data(curso):
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * from acervo_{}".format(curso))
     rows = cursor.fetchall()    
+    return rows
+
+def get_file(curso):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * from acervo_{} where disciplina ='{}'".format(curso, curso))
+    rows = cursor.fetchall()    
+    print(rows)
     return rows
 
 def get_user():         
@@ -224,7 +213,7 @@ def upload_acervo():
                 print(sz, ' é o tamnanho do arquivo')
             print(file)
         cur.close()   
-    return redirect('/{}'.format(disc))
+    return redirect('tarefas/{}'.format(disc))
 
 def get_info_professor(email, senha):
     cursor= mysql.connection.cursor()
@@ -253,34 +242,28 @@ def login_screen():
             dados = get_info_professor(email=email, senha=senha)
             dados_prof.append(dados)
             usr.append('professor')
+
             try: 
-                if dados[9]== email and dados[10] == senha:
-                    print('login de professor')  
+                if dados[9]== email and dados[10] == senha:               
                     return redirect(url_for('home'))
-                else: 
-                    msg = 'login nao confere'
-                return render_template('login.html', data=msg)
             except Exception as e:
-                msg = 'erro '                
-                return render_template('login.html', data=msg, erro = e)
+                flash(f'Credenciais não encontradas.')                              
+                return render_template('login.html')
 
         elif 'aluno' in email:
             dados = get_info_aluno(email=email, senha=senha)
             dados_aluno.append(dados)
             usr.append('aluno')
             try: 
-                if dados[10]== email and dados[11] == senha:
-                    print('login de aluno')  
+                if dados[10]== email and dados[11] == senha: 
                     return redirect(url_for('home'))  
-                else: 
-                    msg = 'login nao confere'
-                    return render_template('login.html', data=msg)
             except Exception as e:
-                    msg = 'erro '                
-                    return render_template('login.html', data=msg, erro = e)
-                
+                flash(f'Credenciais não encontradas.')                              
+                return render_template('login.html')     
+        else:
+            flash('Insira uma conta de aluno ou professor')
+            return render_template('login.html')     
     return render_template('login.html')
-
 
 @app.route('/insert', methods = ['POST'])
 def insertAluno():
@@ -302,7 +285,7 @@ def insertAluno():
                 "INSERT INTO heroku_3624ff9c487b5c5.cadastro_aluno (Nome, RG, CPF, Data_Nascimento, Sexo, Nome_pai, Nome_mae, Endereco, Telefone, email, senha) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
                 (nome,rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha))
             mysql.connection.commit()
-            return render_template('home.html')
+            return render_template('login.html')
             
         except:
             print('deu erro')
@@ -330,10 +313,10 @@ def insertProfessor():
                 (nome,formacao, dt_nasc,cpf, rg, end, sexo,tel, email, senha, disciplina)
             )
             mysql.connection.commit()
-            return render_template('home.html')
+            return render_template('login.html')
             
         except Exception as e:
-            print(f'deu erro {e}')
+            flash(f'deu erro {e}')
             return render_template('cadastroProfessor.html')
 
 @io.on('sendMessage')
