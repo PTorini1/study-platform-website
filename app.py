@@ -190,7 +190,14 @@ def tarefas(tarefa):
     data = f'..\\static\\uploads\\{filename[0][1]}'
     usuario = get_user()
     divs = get_data(curso = tarefa) # fazer um parametreo no get_data p receber o curso no select
-    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename, nomee=data)
+    div_tarefa = get_data_tarefa(curso=tarefa)
+    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename)
+
+def get_data_tarefa(curso):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * from tarefa_{}".format(curso))
+    rows_tarefas = cursor.fetchall()    
+    return rows_tarefas
 
 def get_data(curso):
     cursor = mysql.connection.cursor()
@@ -230,10 +237,10 @@ def upload_acervo():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                sz = (Path(f'static/uploads/{filename}').stat().st_size)/1000000 # em bytes
+                sz = (Path(f'static/uploads/{filename}').stat().st_size) # em bytes
                 split_tup = os.path.splitext(f'static/uploads/{filename}')
                 file_extension = split_tup[1]
-                cur.execute("INSERT INTO acervo_{} (file_name, descricao, disciplina, professor, size, type) VALUES (%s, %s, %s, %s, %s, %s)".format(disc),[filename, desc, disc, professor, sz, file_extension])
+                cur.execute("INSERT INTO acervo_{} (file_name, descricao, disciplina, professor, size, type) VALUES (%s, %s, %s, %s, %s, %s)".format(disc),['..\\static\\uploads\\'+filename, desc, disc, professor, sz, file_extension])
                 mysql.connection.commit()
                 print(sz, ' é o tamnanho do arquivo')
             print(file)
@@ -256,6 +263,20 @@ def get_info_aluno(email, senha):
     dados_aluno.append(dados)
     usr.append('aluno')
     return dados
+
+@app.route('/upload_tarefa', methods = ['POST', 'GET'])
+def upload_tarefa():
+    cur = mysql.connection.cursor()
+    if request.method == 'POST':
+        desc = request.form['descricao-material-tarefa']
+        disc =  request.form['disciplina-tarefa']
+        title =  request.form['title-tarefa']
+        professor =  dados_prof[0][1] 
+        cur.execute("INSERT INTO tarefa_{} (title, descricao, disciplina, professor) VALUES (%s, %s, %s, %s)".format(disc),[title, disc, desc, professor])
+        mysql.connection.commit()
+        cur.close()   
+    return redirect('tarefas/{}'.format(disc))
+
     
 @app.route('/login', methods = ['POST', 'GET'])
 def login_screen():
