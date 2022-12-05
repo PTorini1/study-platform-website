@@ -11,10 +11,93 @@
     
 }
 
+<<<<<<< Updated upstream
 /* .card.h-100:hover{
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.301);
     border-radius: 10px;
 } */
+=======
+.container-material, .container-tarefa{
+    display: none;
+    position: fixed;
+    padding: 0;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    justify-content: center;
+    background-color: white;
+    height: 100vh;
+    margin-right: 400px;
+    z-index: 3000;
+    align-items: center;
+}
+
+.btn.btn-danger-modal{
+    position: absolute;
+    top: -30px;
+    color: white;
+    text-align: left;
+    font-size: 25px;
+    width: 50px;
+    height: 50px;
+    line-height: 35px;
+    right: -30px;
+    padding-right: 10px !important;
+    border: none;
+    background-color:  rgb(195, 7, 7);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bolder;
+    border-radius: 50%;
+}
+
+.dis{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.diss{
+    font-size: 18px !important;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.material-form{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+.modal-arrow{
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+.btn.btn-danger-modal:hover{
+    background-color: rgb(187, 7, 7);
+}
+
+.modal-material, .modal-tarefa{
+    position: relative;
+    text-align: center;
+    background-color: white;
+    width: 50vw;
+    box-shadow: 0px 0px 0px 10px white;
+}
+
+@media screen and (min-width:1300px){
+    .modal-sala1{
+        position: relative;
+        text-align: center;
+        background-color: white;
+        height: 30%;
+        width: 60%;
+        border: 10px solid rgb(130, 7, 7);
+        box-shadow: 0px 0px 0px 10px white;
+    }
+}
+
+>>>>>>> Stashed changes
 
 .comment-button{
     border: none;
@@ -67,12 +150,21 @@
 .menu-top{
     display: flex;
     width: 100%;
-    justify-content: end;
+    background-color: white;
+    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.479);
+    border-radius: 0px 0px 10px 10px;
+    justify-content: space-around;
     margin: 10px 0px 0px 0px;
 }
 
 .None{
     display: none;
+}
+
+.pipe{
+    height: 80%;
+    margin-top: 10px ;
+    font-size: 20px;
 }
 
 .carrossel-div{
@@ -84,17 +176,18 @@
 }
 
 .menu-top>button{
-    font-size: 15px;
+    font-size: 30px;
     margin: 0px 3px;
+    color: rgb(255, 47, 47);
     text-transform: uppercase;
-    font-family: 'Courier New', Courier, monospace;
-    border-radius: 0px 0px 10px 10px;
-    border: 0.5px solid rgba(0, 0, 0, 0.501);
-    background-color: rgba(255, 95, 95, 0.404);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: transparent;
+    border: none;
 }
 
 .menu-top>button.desactivate{
-    background-color: rgba(146, 146, 146, 0.404);
+    background-color: transparent;
+    color: rgba(158, 158, 158, 0.582);
 }
 
 ::-webkit-scrollbar-thumb{

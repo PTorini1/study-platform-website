@@ -77,9 +77,11 @@
     <button onclick="Tarefas()" class="activate" id="Tarefa">
         Tarefas
     </button>
+    <p class="pipe">|</p>
     <button onclick="Acervo()" class="desactivate" id="Acervo">
         Acervo
     </button>
+    <p class="pipe">|</p>
     <button onclick="Laboratorio()" class="desactivate" id="Laboratorio">
         Laboratório
     </button>
@@ -237,7 +239,155 @@
         </div>
     </div>
 </div>
+<<<<<<< Updated upstream
 
+=======
+    
+<div class="container-tarefa" id="container-tarefa">
+    <div onclick="sair_tarefa()" class="modal-arrow" style="cursor: pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+          </svg>
+    </div>
+    <div class="modal-tarefa">
+        <div class="mb-3">
+            
+            <form method="post" action="/upload_acervo" enctype="multipart/form-data" class="form-inline material-form">
+                <h1 class="dis mt-2"> Enviar Tarefa </h1>
+                <div class="w-100  d-flex">
+                    <label for="idisciplina" class="form-label diss m-1 mb-2">Disciplina</label>
+                    <select class="form-select fit-content" name="disciplina" id="idisciplina" aria-label="Default select example">
+                        <option selected></option>
+                        <option value="bd">Banco de Dados</option>
+                        <option value="pwfe">Programação Front-End</option>
+                        <option value="pwbe">Programação Back-End</option>
+                        <option value="idm">Interface para Dispositivos Móveis</option>
+                    </select>
+                </div>
+                
+                <div class="w-100 mt-2">
+                    <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material" id="nome" value= "{{nome_bd}}" required></textarea>
+                </div>
+                
+                <div class="form-group w-100">
+                    <label class="m-1">Enviar material: </label>
+                    <input type="file" name="files[]" id="fileInput" class="form-control" multiple >
+                </div>
+                <div class="d-flex w-100" style="justify-content: space-between;">
+                <input type="submit" name="submit" class="btn btn-primary m-2" value="Enviar"/>
+                <button class="btn btn-danger m-2" onclick="sair_material()">Fechar</button>
+                </div>
+            </form>
+        </div>
+        <script>
+            $(document).ready(function(){
+                // File type validation
+                $("#fileInput").change(function(){
+                    var fileLength = this.files.length;
+                    var match= ["image/jpeg","image/png","image/jpg","image/gif"];
+                    var i;
+                    for(i = 0; i < fileLength; i++){ 
+                        var file = this.files[i];
+                        var imagefile = file.type;
+                        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]))){
+                            alert('Please select a valid image file (JPEG/JPG/PNG/GIF).');
+                            $("#fileInput").val('');
+                            return false;
+                        }
+                    }
+                });
+            });
+        </script>
+    </div>
+</div>
+    
+    
+
+    
+    
+    
+    <div class="container-material" id="container-material">
+        <div onclick="sair_material()" class="modal-arrow" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+              </svg>
+        </div>
+        <div class="modal-material">
+            <div class="mb-3">
+                
+                <form method="post" action="/upload_acervo" enctype="multipart/form-data" class="form-inline material-form">
+                    <h1 class="dis mt-2"> Enviar Material </h1>
+                    <div class="w-100  d-flex">
+                        <label for="idisciplina" class="form-label diss m-1 mb-2">Disciplina</label>
+                        <select class="form-select fit-content" name="disciplina" id="idisciplina" aria-label="Default select example">
+                            <option selected></option>
+                            <option value="bd">Banco de Dados</option>
+                            <option value="pwfe">Programação Front-End</option>
+                            <option value="pwbe">Programação Back-End</option>
+                            <option value="idm">Interface para Dispositivos Móveis</option>
+                        </select>
+                    </div>
+                    
+                    <div class="w-100 mt-2">
+                        <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material" id="nome" value= "{{nome_bd}}" required></textarea>
+                    </div>
+                    
+                    <div class="form-group w-100">
+                        <label class="m-1">Enviar material: </label>
+                        <input type="file" name="files[]" id="fileInput" class="form-control" multiple >
+                    </div>
+
+                    <div class="d-flex w-100" style="justify-content: space-between;">
+                        <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
+                        <button class="btn btn-danger" onclick="sair_material()">Fechar</button>
+                    </div>
+                </form>
+            </div>
+            <script>
+                $(document).ready(function(){
+                    // File type validation
+                    $("#fileInput").change(function(){
+                        var fileLength = this.files.length;
+                        var match= ["image/jpeg","image/png","image/jpg","image/gif"];
+                        var i;
+                        for(i = 0; i < fileLength; i++){ 
+                            var file = this.files[i];
+                            var imagefile = file.type;
+                            if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]))){
+                                alert('Please select a valid image file (JPEG/JPG/PNG/GIF).');
+                                $("#fileInput").val('');
+                                return false;
+                            }
+                        }
+                    });
+                });
+            </script>  
+        </div>
+    </div>
+    
+    <script>
+        function enviarMaterial(){
+            let container = document.getElementById('container-material') 
+            container.style="display:flex;"
+        }
+        
+        function sair_material(){
+            let container = document.getElementById("container-material")
+            container.style="display:none;"
+        }
+        
+        function enviarTarefa(){
+            let container = document.getElementById('container-tarefa') 
+            container.style="display:flex;"
+        }
+        
+        function sair_tarefa(){
+            let container = document.getElementById("container-tarefa")
+            container.style="display:none;"
+        }
+    </script>
+    
+>>>>>>> Stashed changes
 </div>
 <!-- LABORATÓRIO -->
 <div class="None" id="laboratorio">
