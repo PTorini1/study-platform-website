@@ -74,19 +74,44 @@ def calendario():
 def chat():
     nomes = []
     nifs = []
+    minhasMensagens = []
+    mensagensOutros = []
+    id_usuario = dados_prof[0][0]
+    id_professor = dados_prof[0][0]
+    
+    if request.method == 'POST':
+        try:
+            mensagem = request.form['mensagem']
+            cursor = mysql.connection.cursor()
+            cursor.execute('INSERT INTO chat (id_usuario, id_recebedor, mensagem) VALUES(%s,%s,%s)',(id_usuario, id_professor,mensagem))
+            mensagens = cursor.fetchall()
+            print(mensagens)
+        except:
+            print(1)
+            
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT NIF, Nome, url_foto from cadastro_professor')
+    cursor2 = mysql.connection.cursor()
+    
+    print(dados_prof)
+    cursor.execute('SELECT NIF, Nome, url_foto FROM cadastro_professor')
+    cursor2.execute('SELECT * FROM chat WHERE id_usuario OR id_recebedor=24')
+    
     contatos = cursor.fetchall()
-    for n in range(len(contatos)):
+    y = len(contatos)
+    mensagens = cursor2.fetchall()
+    z = len(mensagens)
+    
+    for n in range(y):
         nifs.append(contatos[n][0])
         nomes.append(contatos[n][1])
-        x = len(contatos)
-    return render_template('chat.html', nome = nomes, contato = contatos, y=x, nif = nifs)
-
-def enviaMesagem():
-    cursor = mysql.connection.cursor()
-    cursor.execute('INSERT INTO chat ')
-    mensagem = cursor.fetchall()
+        
+    for n in range(z):
+        if mensagens[n][1] == id_usuario:
+            minhasMensagens.append(mensagens[n][3])
+        elif mensagens[n][1] != id_usuario:
+            mensagensOutros.append(mensagens[n][3])
+        
+    return render_template('chat.html', nome = nomes, contato = contatos, y=y, nif = nifs, mensagem = mensagens, minhaMensagem = minhasMensagens, outros = mensagensOutros,z=z)
 
 @app.route('/dashboard')
 def dashboard():

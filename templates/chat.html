@@ -1,17 +1,15 @@
 {% extends 'principal.html'%} {%block conteudo %}
-<link
-  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-  rel="stylesheet"
-/>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 <link rel="stylesheet" href="{{url_for('static', filename='css/chat.css')}}" />
 <style>
   .chat {
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
+    flex-direction: column-reverse;
   }
 
   .chat span {
     margin-bottom: 10px;
+    flex-direction: column-reverse;
   }
 
   form {
@@ -65,43 +63,32 @@
           </div>
           <div class="chat-history">
             <ul class="m-b-0">
-              <li class="clearfix">
-                <div class="message other-message float-right">
-                  Hi Aiden, how are you? How is the project coming along?
+              <li class="clearfix ">
+              {% for mensagem in range(z) %}
+                <div class="message other-message float-right chat">
+                  {{minhaMensagem[mensagem]}}
                 </div>
               </li>
-                <div class="message my-message m-2">Are we meeting today?</div>
+                <span class="message my-message m-2 float-left chat">{{outros[mensagem]}}</span>
               </li>
             </ul>
+              {% endfor %}
           </div>
-          <form action="{{url_for('chat')}}" method="POST">
+          <form action="/chat" method="POST">
             <div class="chat-message clearfix">
               <div class="input-group mb-0">
                 <div class="input-group-prepend">
-                  <!--<span class="input-group-text"><i class="fa fa-send"></i></span>-->
                   <button type="submit" class="input-group-text">Enviar</button>
                 </div>
-                <!--<input type="text" class="form-control" placeholder="Enter text here..."> -->
-                <input
-                  class="form-control"
-                  type="text"
-                  placeholder="Mensagem"
-                />
+                <input class="form-control" id="mensagem" name="mensagem" type="text" placeholder="Mensagem" onclick="{{enviaMensagem}}"/>
               </div>
             </div>
-          </form>
+          </form>  
         </div>
       </div>
     </div>
   </div>
-<div class="chat"></div>
-<div></div>
-
-<script
-  src="https://cdn.socket.io/4.5.4/socket.io.min.js"
-  integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"
-  crossorigin="anonymous"
-></script>
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
 <script>
   window.onload = function () {
     const socket = io("http://127.0.0.1:5000");
@@ -111,7 +98,6 @@
     });
 
     const form = document.querySelector("form").addEventListener("submit", function (event) {
-        event.preventDefault();
 
         socket.emit("sendMessage", {name: event.target[0].value,message: event.target[1].value,
         });
@@ -122,9 +108,24 @@
     socket.on("getMessage", (msg) => {
       const span = document.createElement("div");
       const chat = document.querySelector(".chat-history");
-      span.innerHTML = `<div class="message other-message float-right">${msg.message}</div>`;
+      span.innerHTML = `<span class="message other-message float-right chat" style="margin-top:3%">${msg.message}</span>`;
       chat.append(span);
     });
   };
+
+  var xhttp = new XMLHttpRequest();
+xhttp.open("GET", "/chat", true);
+xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+xhttp.onreadystatechange = function() {
+   if (this.readyState == 4 && this.status == 200) {
+
+      // Response
+      var response = this.responseText; 
+      console.log(response)
+
+   }
+};
+xhttp.send();
 </script>
+
 {%endblock %}
