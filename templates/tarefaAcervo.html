@@ -94,23 +94,19 @@
     </div>
     {% endif %}
     
-    {% for data in divs %}
+    {% for data_tarefa in div_tarefa %}
     <div class="flex-column w-100 m-1">
         <div class="card h-100 w-100">
             <div class="card-body">
                 <div class="flex-row">
                     <div class="flex-column">
-                        <p class="abv-mat">{{data[3]}}</p>
+                        <p class="abv-mat">{{data_tarefa[3]}}</p>
                     </div>
                     <div class="flex-column">
-                        <h5 class="card-title">{{data[4]}}</h5>
-                        <h6 class="card-subtitle text-muted">25/10/2022</h6>
+                        <h5 class="card-title">{{data_tarefa[4]}}</h5>
+                        <h6 class="card-subtitle text-muted">{{data_tarefa[5]}}</h6> <!--data-postagem-->
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <p class="card-text text-justify">{{data[2]}}</p>
-                <iframe class="scribd_iframe_embed" title="110228_-_aula-1_introdução_ao_sgbd" src="../static/uploads/{{data[1]}}" tabindex="0" data-auto-height="true" data-aspect-ratio="null" scrolling="no" width="100%" height="600"></iframe>
             </div>
         </div>
     </div>
@@ -134,7 +130,7 @@
             <h1 class="m-3">Acervo</h1>
             <div class="row mb-5">
                 {% for data in divs %}
-                <a class="col-md-2 col-lg-4" style="color: inherit;text-decoration: none;" href="{{nomee}}">
+                <a class="col-md-2 col-lg-4" style="color: inherit;text-decoration: none;" href="{{data[1]}}">
                     <div class="card h-100" style="box-shadow: none;">
                         <div class="card-body">
                             <div class="flex-row">
@@ -185,31 +181,24 @@
 <div class="container-tarefa" id="container-tarefa">
     <div class="modal-tarefa">
         <div class="mb-3">
-            
-            <form method="post" action="/upload_acervo" enctype="multipart/form-data" class="form-inline material-form">
+            <form method="post" action="/upload_tarefa" enctype="multipart/form-data" class="form-inline material-form">
                 <h1 class="dis mt-2"> Enviar Tarefa </h1>
                 <div class="w-100  d-flex">
                     <label for="idisciplina" class="form-label diss m-1 mb-2">Disciplina</label>
-                    <select class="form-select fit-content" name="disciplina" id="idisciplina" aria-label="Default select example">
+                    <select class="form-select fit-content" name="disciplina-tarefa" id="idisciplina" aria-label="Default select example">
                         <option selected></option>
                         <option value="bd">Banco de Dados</option>
                         <option value="pwfe">Programação Front-End</option>
-                        <option value="pwbe">Programação Back-End</option>
                         <option value="idm">Interface para Dispositivos Móveis</option>
                     </select>
                 </div>
-                
-                <div class="w-100 mt-2">
-                    <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material" id="nome" value= "{{nome_bd}}" required></textarea>
-                </div>
-                
-                <div class="form-group w-100">
-                    <label class="m-1">Enviar material: </label>
-                    <input type="file" name="files[]" id="fileInput" class="form-control" multiple >
-                </div>
-                <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
+                <label for="idisciplina" class="form-label diss m-1 mb-2">Digite um título para a tarefa<label>
+                    <input type="text" name="title-tarefa">
+                    <div class="w-100 mt-2">
+                        <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material-tarefa" id="nome" value= "{{nome_bd}}" required></textarea>
+                    </div>
+                    <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
             </form>
-        </div>
         <script>
             $(document).ready(function(){
                 // File type validation
@@ -232,11 +221,7 @@
         <button class="btn btn-danger-modal" onclick="sair_tarefa()">x</button>  
     </div>
 </div>
-    
-    
-
-    
-    
+</div>    
     
     <div class="container-material" id="container-material">
         <div class="modal-material">
