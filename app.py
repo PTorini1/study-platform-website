@@ -21,19 +21,19 @@ app = Flask(__name__)
 io = SocketIO(app)
 
 #- criando a conexao com o banco -- VERSAO HEROKU
-mysql = MySQL(app)
-app.config['MYSQL_HOST'] = 'us-cdbr-east-06.cleardb.net'
-app.config['MYSQL_USER'] = 'be833ebed6b2ed'
-app.config['MYSQL_PASSWORD'] = 'b43c3668'
-app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
+# mysql = MySQL(app)
+# app.config['MYSQL_HOST'] = 'us-cdbr-east-06.cleardb.net'
+# app.config['MYSQL_USER'] = 'be833ebed6b2ed'
+# app.config['MYSQL_PASSWORD'] = 'b43c3668'
+# app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
 
 app.secret_key = "emanuel-gatao"
 #- criando a conexao com o banco -- VERSAO SENAI LOCAL
-# mysql = MySQL(app)
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = ''
-# app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
+mysql = MySQL(app)
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
 
 io = SocketIO(app)
 # lists data
@@ -155,10 +155,11 @@ def perfilAluno():
 def perfilProfessor():
     if request.method == 'POST': 
         nif = dados_prof[0][0]
+        foto =  request.form['fotoPerfil']
         email =  dados_prof[0][9]
         senha = dados_prof[0][10] 
         get_info_professor(email=email, senha= senha)
-        print(dados_prof)
+        print(foto)
         try:    
             nome = request.form['nome']
             cpf = request.form['cpf']
@@ -172,15 +173,16 @@ def perfilProfessor():
             formacao =  request.form['formacao']
             disc =  request.form['disc']
             cursor= mysql.connection.cursor()
-            sql_update_qr =  """Update heroku_3624ff9c487b5c5.cadastro_professor set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s, Nome_Disciplina = %s, Formacao = %s where NIF = %s""" 
-            data_qr = (nome, rg, cpf, dt_nasc, sexo, end, tel, email, senha,disc, formacao, nif)
+            # print(foto, ' --------------')
+            sql_update_qr =  """Update heroku_3624ff9c487b5c5.cadastro_professor set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s, Nome_Disciplina = %s, Formacao = %s, photo = %s where NIF = %s""" 
+            data_qr = (nome, rg, cpf, dt_nasc, sexo, end, tel, email, senha,disc, formacao, 'aaa', nif)
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
             cursor.close()
             return redirect('/')
         except Exception as e :
             print('erro: ', e) 
-    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
+    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10])
 
 
 @app.route('/tarefas/<tarefa>')

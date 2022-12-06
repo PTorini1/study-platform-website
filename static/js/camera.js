@@ -18,11 +18,33 @@ function startVideoFromCamera(){
         canvas.width = videoElement.videoWidth
         canvas.height = videoElement.videoHeight
         context.drawImage(videoElement, 0 , 0)
-  
-        const imagem = document.getElementById('url_foto')
-        imagem.name = 'Perfil.png'
-  
-        alert(download.href)
+        
+        let teste = document.getElementById("fotoPerfil")
+        let urlImagem = teste.name
+        urlImagem.name = canvas.toDataURL();
+
+        canvas.toBlob((blob) => {
+            var newImg = document.getElementById('imgPerfil');
+            var url = URL.createObjectURL(blob);
+          
+            newImg.onload = () => {
+              URL.revokeObjectURL(url);
+            };
+          
+            newImg.src = url;
+            console.log(url);
+
+            teste.value = url;
+            teste.id = url;
+            teste.value = url;
+            console.log(teste.name)
+            
+          });
+
+          $.post('localhost:5000\\perfilProfessor', {url:url}, function(response){ 
+                
+          });
+
     });
   
  }
