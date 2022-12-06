@@ -352,7 +352,13 @@ a:hover{
     padding: 20px;
 }
 
-.comunicado>h1{
+#ca{
+    display: none !important;
+    width: 0px;
+    left: 50%;
+}
+
+.comunicado h1{
     color: rgb(124, 22, 22) ;
     font-family: Georgia, 'Times New Roman', Times, serif;
     text-align: center;
