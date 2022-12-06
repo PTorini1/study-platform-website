@@ -195,7 +195,7 @@ def tarefas(tarefa):
 
 def get_data_tarefa(curso):
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * from tarefa_{}".format(curso))
+    cursor.execute("SELECT * from tarefa_{} where disciplina = '{}".format(curso, curso))
     rows_tarefas = cursor.fetchall()    
     return rows_tarefas
 
@@ -275,7 +275,7 @@ def upload_tarefa():
         title =  request.form['title-tarefa']
         professor =  dados_prof[0][1] 
         dia_postagem  = datetime.date.today()
-        cur.execute("INSERT INTO tarefa_{} (title, descricao, disciplina, professor, data_postagem) VALUES (%s, %s, %s, %s, %s)".format(disc),[title, disc, desc, professor, dia_postagem])
+        cur.execute("INSERT INTO tarefa_{} (title, descricao, disciplina, professor, data_postagem) VALUES (%s, %s, %s, %s, %s)".format(disc),[title, desc, disc, professor, dia_postagem])
         mysql.connection.commit()
         cur.close()   
     return redirect('tarefas/{}'.format(disc))
