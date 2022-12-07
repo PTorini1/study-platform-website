@@ -13,7 +13,9 @@ from flask import (
 from werkzeug.utils import secure_filename
 import os
 import urllib.request
-#import wget
+import base64
+from PIL import Image 
+import mysql.connector
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -29,12 +31,6 @@ app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
 
 app.secret_key = "emanuel-gatao"
 # - criando a conexao com o banco -- VERSAO SENAI LOCAL
-""" mysql = MySQL(app)
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5' """
-#- criando a conexao com o banco -- VERSAO SENAI LOCAL
 # mysql = MySQL(app)
 # app.config['MYSQL_HOST'] = 'localhost'
 # app.config['MYSQL_USER'] = 'root'
@@ -91,9 +87,8 @@ def chat():
             cursor = mysql.connection.cursor()
             cursor.execute('INSERT INTO chat (id_usuario, id_recebedor, mensagem) VALUES(%s,%s,%s)',(id_usuario, id_professor,mensagem))
             mensagens = cursor.fetchall()
-            
         except:
-            print(1)
+            print('erro')
             
     cursor = mysql.connection.cursor()
     cursor2 = mysql.connection.cursor()
@@ -145,7 +140,7 @@ def perfilAluno():
             nm_pai =  request.form['nome_pai']
             nm_mae =  request.form['nome_mae']
             cursor= mysql.connection.cursor()  
-            sql_update_qr =  """Update heroku_3624ff9c487b5c5.cadastro_aluno set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s,Nome_pai=%s, Nome_mae=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s where RA = %s""" 
+            sql_update_qr =  """Update cadastro_aluno set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s,Nome_pai=%s, Nome_mae=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s where RA = %s""" 
             data_qr = (nome, rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha, ra_)
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
@@ -164,7 +159,6 @@ def perfilProfessor():
         email =  dados_prof[0][9]
         senha = dados_prof[0][10] 
         get_info_professor(email=email, senha= senha)
-       
         try:    
             nome = request.form['nome']
             cpf = request.form['cpf']
@@ -176,17 +170,19 @@ def perfilProfessor():
             email = request.form['email']
             senha = request.form['senha']
             formacao =  request.form['formacao']
+            foto =  request.form['fotoPerfil']
             disc =  request.form['disc']
             cursor= mysql.connection.cursor()
-            sql_update_qr =  """Update heroku_3624ff9c487b5c5.cadastro_professor set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s, Nome_Disciplina = %s, Formacao = %s where NIF = %s""" 
-            data_qr = (nome, rg, cpf, dt_nasc, sexo, end, tel, email, senha,disc, formacao, nif)
+            sql_update_qr =  """Update cadastro_professor set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s, Nome_Disciplina = %s, Formacao = %s, photo = %s where NIF = %s""" 
+            data_qr = (nome, rg, cpf, dt_nasc, sexo, end, tel, email, senha,disc, formacao, foto, nif)
+            
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
             cursor.close()
             return redirect('/')
         except Exception as e :
             print('erro: ', e) 
-    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10] )
+    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10])
 
 
 @app.route('/tarefas/<tarefa>')
@@ -248,15 +244,13 @@ def upload_acervo():
                 file_extension = split_tup[1]
                 cur.execute("INSERT INTO acervo_{} (file_name, descricao, disciplina, professor, size, type) VALUES (%s, %s, %s, %s, %s, %s)".format(disc),['..\\static\\uploads\\'+filename, desc, disc, professor, sz, file_extension])
                 mysql.connection.commit()
-                print(sz, ' é o tamnanho do arquivo')
-           
         cur.close()   
     return redirect('tarefas/{}'.format(disc))
 
 def get_info_professor(email, senha):
-    cursor= mysql.connection.cursor()
-    # cursor.execute("SELECT * from heroku_3624ff9c487b5c5.cadastro_professor WHERE email = '{}' AND senha = '{}'".format(email, senha))
-    cursor.execute("SELECT * from heroku_3624ff9c487b5c5.cadastro_professor WHERE email = '{}' AND senha = '{}'".format(email, senha))
+    cursor = mysql.connection.cursor()
+    # cursor.execute("SELECT * from cadastro_professor WHERE email = '{}' AND senha = '{}'".format(email, senha))
+    cursor.execute("SELECT * from cadastro_professor WHERE email = '{}' AND senha = '{}'".format(email, senha))
 
     dados = cursor.fetchone()
     dados_prof.append(dados)
@@ -266,7 +260,7 @@ def get_info_professor(email, senha):
 
 def get_info_aluno(email, senha):
     cursor= mysql.connection.cursor()
-    cursor.execute("SELECT * from heroku_3624ff9c487b5c5.cadastro_aluno WHERE email = '{}' AND senha = '{}'".format(email, senha))
+    cursor.execute("SELECT * from cadastro_aluno WHERE email = '{}' AND senha = '{}'".format(email, senha))
     dados = cursor.fetchone()
     dados_aluno.append(dados)
     usr.append('aluno')
@@ -337,13 +331,12 @@ def insertAluno():
             nm_mae =  request.form['nome_mae']
             cursor2 = mysql.connection.cursor()
             cursor2.execute(
-                "INSERT INTO heroku_3624ff9c487b5c5.cadastro_aluno (Nome, RG, CPF, Data_Nascimento, Sexo, Nome_pai, Nome_mae, Endereco, Telefone, email, senha) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+                "INSERT INTO cadastro_aluno (Nome, RG, CPF, Data_Nascimento, Sexo, Nome_pai, Nome_mae, Endereco, Telefone, email, senha) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
                 (nome,rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha))
             mysql.connection.commit()
             return render_template('login.html')
             
         except:
-            print('deu erro')
             return render_template('cadastroAluno.html')
 
 @app.route('/insertprof', methods=['POST'])
@@ -364,7 +357,7 @@ def insertProfessor():
 
             cursor = mysql.connection.cursor()
             cursor.execute(
-                "INSERT INTO heroku_3624ff9c487b5c5.cadastro_professor (Nome, Formacao, Data_Nascimento,CPF, RG, Endereco, Sexo, Telefone, Email, Senha, Nome_Disciplina) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+                "INSERT INTO cadastro_professor (Nome, Formacao, Data_Nascimento,CPF, RG, Endereco, Sexo, Telefone, Email, Senha, Nome_Disciplina) VALUES (%s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
                 (nome,formacao, dt_nasc,cpf, rg, end, sexo,tel, email, senha, disciplina)
             )
             mysql.connection.commit()
