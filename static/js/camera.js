@@ -20,7 +20,7 @@ function startVideoFromCamera(){
         context.drawImage(videoElement, 0 , 0)
         
         let teste = document.getElementById("fotoPerfil")
-        let teste2 = document.getElementById("testeAbsurdo")
+        var teste2 = document.getElementById("testeAbsurdo")
         let urlImagem = teste.name
         urlImagem.name = canvas.toDataURL();
         teste2.value = canvas.toDataURL();
@@ -28,21 +28,13 @@ function startVideoFromCamera(){
         canvas.toBlob((blob) => {
             var newImg = document.getElementById('imgPerfil');
             var url = URL.createObjectURL(blob);
-        
+            
             newImg.onload = () => {
                 URL.revokeObjectURL(url);
             };
-        
+
             newImg.src = url;
-            console.log(newImg.src);
-
-            teste.value = url;
-            console.log(teste.value)
-            
+            teste.value = url; 
         });
-
-        $.post('localhost:5000\\perfilProfessor', {url:url}, function(response){ 
-        });
-
     });
 }

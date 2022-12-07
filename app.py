@@ -1,3 +1,5 @@
+# EU ODEIO FLAAAAAAAASSSSSSSK
+
 import functools
 from flask import Flask,render_template, request, flash, send_from_directory
 from flask_mysqldb import MySQL
@@ -14,8 +16,8 @@ from werkzeug.utils import secure_filename
 import os
 import urllib.request
 import base64
-from PIL import Image 
-#import mysql.connector
+from io import BytesIO
+from PIL import Image
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -75,27 +77,32 @@ def calendario():
 @app.route('/chat', methods = ['POST', 'GET'])
 def chat():
     nomes = []
-    nifs = []
-    minhasMensagens = []
-    mensagensOutros = []
-    id_usuario = dados_prof[0][0]
-    id_professor = dados_prof[0][0]
+    ids = []
+    id_usuario = 0
+    id_recebedor = 0
     
-    if request.method == 'POST':
-        try:
-            mensagem = request.form['mensagem']
-            cursor = mysql.connection.cursor()
-            cursor.execute('INSERT INTO chat (id_usuario, id_recebedor, mensagem) VALUES(%s,%s,%s)',(id_usuario, id_professor,mensagem))
-            mensagens = cursor.fetchall()
-        except:
-            print('erro')
-            
     cursor = mysql.connection.cursor()
     cursor2 = mysql.connection.cursor()
     
+    if(usr[0] == 'professor'):
+        id_usuario = dados_prof[0][0]
+        cursor.execute('SELECT RA, Nome, photo FROM cadastro_aluno')
+        cursor2.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario =%s', {id_usuario})
+    else:
+        id_usuario = dados_aluno[0][0]
+        cursor.execute('SELECT NIF, Nome, photo FROM cadastro_professor')
+        cursor2.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario=%s',{id_usuario})
     
-    cursor.execute('SELECT NIF, Nome, url_foto FROM cadastro_professor')
-    cursor2.execute('SELECT * FROM chat WHERE id_usuario OR id_recebedor=24')
+    insereMensagens(id_usuario, id_recebedor)
+    
+    if(usr[0] == 'professor'):
+        id_usuario = dados_prof[0][0]
+        cursor.execute('SELECT RA, Nome, photo FROM cadastro_aluno')
+        cursor2.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario =%s', {id_usuario})
+    else:
+        id_usuario = dados_aluno[0][0]
+        cursor.execute('SELECT NIF, Nome, photo FROM cadastro_professor')
+        cursor2.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario=%s',{id_usuario})
     
     contatos = cursor.fetchall()
     y = len(contatos)
@@ -103,16 +110,23 @@ def chat():
     z = len(mensagens)
     
     for n in range(y):
-        nifs.append(contatos[n][0])
+        ids.append(contatos[n][0])
         nomes.append(contatos[n][1])
-        
-    for n in range(z):
-        if mensagens[n][1] == id_usuario:
-            minhasMensagens.append(mensagens[n][3])
-        elif mensagens[n][1] != id_usuario:
-            mensagensOutros.append(mensagens[n][3])
-        
-    return render_template('chat.html', nome = nomes, contato = contatos, y=y, nif = nifs, mensagem = mensagens, minhaMensagem = minhasMensagens, outros = mensagensOutros,z=z)
+            
+    return render_template('chat.html', nome = nomes, contato = contatos, y=y, id = ids, mensagem = mensagens, z=z, id_usuario = id_usuario, id_recebedor = id_recebedor)
+    
+def insereMensagens(id_usuario, id_recebedor):
+    if request.method == 'POST':
+        try:
+            mensagem = request.form['mensagemChat']
+            cursor = mysql.connection.cursor()
+            cursor.execute('INSERT INTO chat (id_usuario, id_recebedor, mensagem) VALUES(%s,%s,%s)',(id_usuario, id_recebedor,mensagem))
+            mysql.connection.commit()
+            cursor.close()
+            mensagens = cursor.fetchall()
+            return mensagens
+        except:
+            render_template('chat.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -170,11 +184,21 @@ def perfilProfessor():
             email = request.form['email']
             senha = request.form['senha']
             formacao =  request.form['formacao']
-            foto =  request.form['fotoPerfil']
+            foto =  request.form['testeAbsurdo']
             disc =  request.form['disc']
+            
+            filename = nome.replace(" ", "")+".png"
+            print(filename)
+            photo = "static\\uploads\\"+filename
+            starter = foto.find(',')
+            image_data = foto[starter+1:]
+            image_data = bytes(image_data, encoding="ascii")
+            im = Image.open(BytesIO(base64.b64decode(image_data)))
+            im.save(photo)
+            
             cursor= mysql.connection.cursor()
             sql_update_qr =  """Update cadastro_professor set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s, Nome_Disciplina = %s, Formacao = %s, photo = %s where NIF = %s""" 
-            data_qr = (nome, rg, cpf, dt_nasc, sexo, end, tel, email, senha,disc, formacao, foto, nif)
+            data_qr = (nome, rg, cpf, dt_nasc, sexo, end, tel, email, senha,disc, formacao, filename, nif)
             
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
@@ -182,7 +206,7 @@ def perfilProfessor():
             return redirect('/')
         except Exception as e :
             print('erro: ', e) 
-    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10])
+    return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10], foto_bd = dados_prof[0][12])
 
 
 @app.route('/tarefas/<tarefa>')

@@ -4,7 +4,11 @@
 <div class="flex-cadastro formPerfil">
   <div class="cadastro ajustePerfil">
     <h1 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color:red;">Perfil</h1>
-      <img class="perfil" src="../static/vendor/img/perfil.jpg" id="imgPerfil" onclick="startVideoFromCamera()">
+    {% if foto_bd %}
+      <img class="perfil" src="{{url_for('static', filename='uploads/{}'.format(foto_bd))}}" id="imgPerfil" onclick="startVideoFromCamera()">
+    {% else %}
+    <img class="perfil" src="{{foto_bd}}" id="imgPerfil" onclick="startVideoFromCamera()">
+    {% endif %}
         <video id="video" autoplay style="position: fixed; top:15%"></video>
           <canvas id="canvas" hidden="true"></canvas>
             <a id="tiraFoto">Tirar Foto</a>

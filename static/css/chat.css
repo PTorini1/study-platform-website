@@ -2,6 +2,7 @@ body{
     background-color: #f4f7f6;
     margin-top:20px;
 }
+
 .card {
     background: #fff;
     transition: .5s;
@@ -11,22 +12,18 @@ body{
     position: relative;
     width: 100%;
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
-    height: 100vh;
-    max-height: 400px;
+    margin-top: 3%;
+    max-height: 500px;
     overflow-x: auto;
 }
-
-span {
-    width:100%;
-}
-
 .chat-app .people-list {
     width: 280px;
     position: absolute;
     left: 0;
     top: 0;
     padding: 20px;
-    z-index: 7
+    z-index: 7;
+    height: 100%
 }
 
 .chat-app .chat {
@@ -97,12 +94,14 @@ span {
 }
 
 .chat .chat-history {
+    height: 100%;
     padding: 20px;
-    border-bottom: 2px solid #fff
+    border-bottom: 2px solid #fff;
+    overflow-x: auto;
 }
 
 .chat .chat-history ul {
-    padding: 0
+    padding: 0;
 }
 
 .chat .chat-history ul li {
@@ -135,7 +134,8 @@ span {
     font-size: 16px;
     border-radius: 7px;
     display: inline-block;
-    position: relative
+    position: relative;
+    width: 100%;
 }
 
 .chat .chat-history .message:after {
@@ -237,10 +237,7 @@ span {
     }
     .chat-app .chat-history {
         height: 300px;
-        overflow-x: auto;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 5%;
+        overflow-x: auto
     }
 }
 
@@ -252,9 +249,7 @@ span {
     .chat-app .chat-history {
         height: 600px;
         overflow-x: auto;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 5%;
+        margin-top: 3%;
     }
 }
 
@@ -262,15 +257,15 @@ span {
     .chat-app .chat-list {
         height: 480px;
         overflow-x: auto;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
+        margin-top: 3%;
     }
     .chat-app .chat-history {
         height: calc(100vh - 350px);
-        overflow-x: auto;
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 5%;
+        overflow-x: auto
     }
+}
+
+.historico{
+    overflow-x: auto;
+    height: 500px;
 }

@@ -1,15 +1,19 @@
 {% extends 'principal.html'%} {%block conteudo %}
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link
+  href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  rel="stylesheet"
+/>
 <link rel="stylesheet" href="{{url_for('static', filename='css/chat.css')}}" />
 <style>
   .chat {
-    display: inline-flex;
-    flex-direction: column-reverse;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3%;
   }
 
   .chat span {
     margin-bottom: 10px;
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 
   form {
@@ -24,8 +28,8 @@
           {% for nomeContato in range(y) %}
           <ul class="list-unstyled chat-list mt-2 mb-0">
             <li class="clearfix">
-              <div hidden=true>{{nif[nomeContato]}}</div>
-              <img width="40px" height="40px" {{url_foto}} alt="perfil" />
+              <div hidden=true>{{id[nomeContato]}}</div>
+              <!--<img width="40px" height="40px" {{url_foto}} alt="perfil" />-->
               <div class="about">
                 <div class="nameChat">{{nome[nomeContato]}}</div>
                 <div class="status">
@@ -61,34 +65,50 @@
               </div>
             </div>
           </div>
-          <div class="chat-history">
+          <div class="chat-history historico">
             <ul class="m-b-0">
-              <li class="clearfix ">
-              {% for mensagem in range(z) %}
-                <div class="message other-message float-right chat">
-                  {{minhaMensagem[mensagem]}}
-                </div>
-              </li>
-                <span class="message my-message m-2 float-left chat">{{outros[mensagem]}}</span>
-              </li>
-            </ul>
+              {% for mensagemChat in range(z) %}
+              {% if id_usuario == mensagem[mensagemChat][1]%}
+                  <div class="message other-message float-right chat">
+                    {{mensagem[mensagemChat][3]}}
+                  </div>
+                {% else %}
+                  <div class="message my-message float-right chat">
+                    {{mensagem[mensagemChat][3]}}
+                  </div>
+                  {% endif %}
+              </ul>
               {% endfor %}
+            </ul>
           </div>
-          <form action="/chat" method="POST">
+          <form action="{{url_for('chat')}}" id="formChat" method="POST">
             <div class="chat-message clearfix">
               <div class="input-group mb-0">
                 <div class="input-group-prepend">
                   <button type="submit" class="input-group-text">Enviar</button>
                 </div>
-                <input class="form-control" id="mensagem" name="mensagem" type="text" placeholder="Mensagem" onclick="{{enviaMensagem}}"/>
+                <input
+                  class="form-control"
+                  type="text"
+                  placeholder="Mensagem"
+                  id="mensagemChat"
+                  name="mensagemChat"
+                />
               </div>
             </div>
-          </form>  
+          </form>
         </div>
       </div>
     </div>
   </div>
-<script src="https://cdn.socket.io/4.5.4/socket.io.min.js" integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI" crossorigin="anonymous"></script>
+<div class="chat"></div>
+<div></div>
+
+<script
+  src="https://cdn.socket.io/4.5.4/socket.io.min.js"
+  integrity="sha384-/KNQL8Nu5gCHLqwqfQjA689Hhoqgi2S84SNUxC3roTe4EhJ9AfLkp8QiQcU8AMzI"
+  crossorigin="anonymous"
+></script>
 <script>
   window.onload = function () {
     const socket = io("http://127.0.0.1:5000");
@@ -98,6 +118,7 @@
     });
 
     const form = document.querySelector("form").addEventListener("submit", function (event) {
+        event.preventDefault();
 
         socket.emit("sendMessage", {name: event.target[0].value,message: event.target[1].value,
         });
@@ -108,24 +129,12 @@
     socket.on("getMessage", (msg) => {
       const span = document.createElement("div");
       const chat = document.querySelector(".chat-history");
-      span.innerHTML = `<span class="message other-message float-right chat" style="margin-top:3%">${msg.message}</span>`;
+      span.innerHTML = `<span class="message other-message float-right">${msg.message}</span>`;
       chat.append(span);
+
     });
+    var form = document.getElementById("formChat");
+    form.addEventListener("submit");
   };
-
-  var xhttp = new XMLHttpRequest();
-xhttp.open("GET", "/chat", true);
-xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-xhttp.onreadystatechange = function() {
-   if (this.readyState == 4 && this.status == 200) {
-
-      // Response
-      var response = this.responseText; 
-      console.log(response)
-
-   }
-};
-xhttp.send();
 </script>
-
 {%endblock %}
