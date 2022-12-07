@@ -11,23 +11,13 @@
     
 }
 
-<<<<<<< Updated upstream
-/* .card.h-100:hover{
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.301);
-    border-radius: 10px;
-} */
-=======
 .container-material, .container-tarefa{
     display: none;
     position: fixed;
     padding: 0;
     top: 0px;
-    left: 0px;
     width: 100vw;
-    justify-content: center;
-    background-color: white;
     height: 100vh;
-    margin-right: 400px;
     z-index: 3000;
     align-items: center;
 }
@@ -67,12 +57,6 @@
     text-align: center;
 }
 
-.modal-arrow{
-    position: absolute;
-    top: 30px;
-    left: 30px;
-}
-
 .btn.btn-danger-modal:hover{
     background-color: rgb(187, 7, 7);
 }
@@ -81,7 +65,8 @@
     position: relative;
     text-align: center;
     background-color: white;
-    width: 50vw;
+    width: 70vw;
+    border: 10px solid rgb(195, 7, 7);
     box-shadow: 0px 0px 0px 10px white;
 }
 
@@ -97,7 +82,6 @@
     }
 }
 
->>>>>>> Stashed changes
 
 .comment-button{
     border: none;
@@ -119,7 +103,6 @@
 
 .justify-content-space-between{
     display: flex !important;
-    width:  !important;
     align-items: center;
     justify-content: space-between !important;
 }
