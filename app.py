@@ -15,7 +15,7 @@ import os
 import urllib.request
 import base64
 from PIL import Image 
-import mysql.connector
+#import mysql.connector
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -197,7 +197,7 @@ def tarefas(tarefa):
 
 def get_data_tarefa(curso):
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * from tarefa_{} where disciplina = '{}".format(curso, curso))
+    cursor.execute("SELECT * from tarefa_{}".format(curso))
     rows_tarefas = cursor.fetchall()    
     return rows_tarefas
 
