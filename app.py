@@ -34,6 +34,12 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5' """
+#- criando a conexao com o banco -- VERSAO SENAI LOCAL
+# mysql = MySQL(app)
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = ''
+# app.config['MYSQL_DB'] = 'eductech'
 
 io = SocketIO(app)
 # lists data

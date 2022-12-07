@@ -133,12 +133,21 @@
 .menu-top{
     display: flex;
     width: 100%;
-    justify-content: end;
+    background-color: white;
+    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.479);
+    border-radius: 0px 0px 10px 10px;
+    justify-content: space-around;
     margin: 10px 0px 0px 0px;
 }
 
 .None{
     display: none;
+}
+
+.pipe{
+    height: 80%;
+    margin-top: 10px ;
+    font-size: 20px;
 }
 
 .carrossel-div{
@@ -150,17 +159,18 @@
 }
 
 .menu-top>button{
-    font-size: 15px;
+    font-size: 30px;
     margin: 0px 3px;
+    color: rgb(255, 47, 47);
     text-transform: uppercase;
-    font-family: 'Courier New', Courier, monospace;
-    border-radius: 0px 0px 10px 10px;
-    border: 0.5px solid rgba(0, 0, 0, 0.501);
-    background-color: rgba(255, 95, 95, 0.404);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: transparent;
+    border: none;
 }
 
 .menu-top>button.desactivate{
-    background-color: rgba(146, 146, 146, 0.404);
+    background-color: transparent;
+    color: rgba(158, 158, 158, 0.582);
 }
 
 ::-webkit-scrollbar-thumb{
@@ -325,7 +335,13 @@ a:hover{
     padding: 20px;
 }
 
-.comunicado>h1{
+#ca{
+    display: none !important;
+    width: 0px;
+    left: 50%;
+}
+
+.comunicado h1{
     color: rgb(124, 22, 22) ;
     font-family: Georgia, 'Times New Roman', Times, serif;
     text-align: center;
