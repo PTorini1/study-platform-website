@@ -28,7 +28,8 @@
           <H1 style='font-family:Cambria;'>Contatos</h1>
           <ul class="list-unstyled chat-list mt-2 mb-0">
             {% for nomeContato in range(y) %}
-            <li class="clearfix">
+            <li class="clearfix" id="usuario">
+              <div hidden=true>{{nome[nomeContato]}}</div>
               <div hidden=true>{{id[nomeContato]}}</div>
               <!--<img width="40px" height="40px" {{url_foto}} alt="perfil" />-->
               <div class="about">
@@ -61,7 +62,7 @@
             <div class="row">
               <div class="col-lg-6">
                 <div class="chat-about">
-                  <h6 class="m-2" id="nome-chat">Mayara Ferreira</h6>
+                  <h6 class="m-2" id="nome-chat"></h6>
                 </div>
               </div>
             </div>
@@ -104,6 +105,37 @@
   </div>
 <div class="chat w-100"></div>
 <div>
+
+<script>
+  $(function(){
+    $('#usuario').click(function(event){ 
+        event.preventDefault()
+        var usuario = $(this)
+        $('#nome-chat').html(`${usuario}`)
+
+        $.ajax({
+            url:"/chat",
+            type: "GET",
+            data: {
+                'usuario': usuario,
+            },
+            dataType: 'json',
+            success: function(response){
+              console.log('foi')
+                /*$('#icidade').show()
+                $('#icidade').html('<option value="cidade">Selecione uma Região</option>')
+                let cnt = []
+                $.each(response, function(key,value){
+                    if(cnt.includes(value.CIDADE.trim()) == false){
+                        $('#icidade').append(`<option value="${value.CIDADE},${value.ID_CONTATO}" > ${value.CIDADE} </option>`);
+                        cnt.push(value.CIDADE.trim())
+                    }
+                })*/
+            }
+        });
+    })
+})
+</script>
 
 <script
   src="https://cdn.socket.io/4.5.4/socket.io.min.js"

@@ -118,8 +118,8 @@
 <!-- ACERVO -->
 
 <div class="None" id="acervo">
-    <div class="flex-column">
-        <div class="card h-100 w-100">
+    <div class="flex-column m-1 ">
+        <div class="card w-100">
             {% if usuario == 'professor' %}
             <div class="cadastro-login">
                 <button onclick="enviarMaterial()" class="btn btn-outline-danger">Enviar Material</button>
@@ -182,6 +182,11 @@
     
 <div class="container-tarefa" id="container-tarefa">
     <div class="modal-tarefa">
+        <button class="sairr" onclick="sair_tarefa()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg>
+        </button>
         <div class="mb-3">
             <form method="post" action="/upload_tarefa" enctype="multipart/form-data" class="form-inline material-form">
                 <h1 class="dis mt-2"> Enviar Tarefa </h1>
@@ -194,12 +199,15 @@
                         <option value="idm">Interface para Dispositivos Móveis</option>
                     </select>
                 </div>
-                <label for="idisciplina" class="form-label diss m-1 mb-2">Digite um título para a tarefa<label>
-                    <input type="text" name="title-tarefa">
-                    <div class="w-100 mt-2">
-                        <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material-tarefa" id="nome" value= "{{nome_bd}}" required></textarea>
-                    </div>
-                    <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
+                <div class="d-flex w-100">
+                    <label for="idisciplina" class="form-label diss">Nome da Tarefa<label>
+                    <input class="form-input-nome" type="text" name="title-tarefa">
+                </div>
+                <div class="w-100 mt-2">
+                    <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material-tarefa" id="nome" value= "{{nome_bd}}" required></textarea>
+                </div>
+                <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
+                <button class="btn btn-danger ml-2" onclick="sair_tarefa()">Sair</button>  
             </form>
         <script>
             $(document).ready(function(){
@@ -220,15 +228,18 @@
                 });
             });
         </script>
-        <button class="btn btn-danger-modal" onclick="sair_tarefa()">x</button>  
     </div>
 </div>
 </div>    
     
     <div class="container-material" id="container-material">
         <div class="modal-material">
+            <button class="sairr" onclick="sair_material()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+              </svg>
+            </button>
             <div class="mb-3">
-                
                 <form method="post" action="/upload_acervo" enctype="multipart/form-data" class="form-inline material-form">
                     <h1 class="dis mt-2"> Enviar Material </h1>
                     <div class="w-100  d-flex">
@@ -241,16 +252,16 @@
                             <option value="idm">Interface para Dispositivos Móveis</option>
                         </select>
                     </div>
-                    
                     <div class="w-100 mt-2">
                         <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material" id="nome" value= "{{nome_bd}}" required></textarea>
                     </div>
                     
-                    <div class="form-group w-100">
-                        <label class="m-1">Enviar material: </label>
-                        <input type="file" name="files[]" id="fileInput" class="form-control" multiple >
+                    <div class="d-flex w-100 flex-wrap">
+                        <label class="m-1">Enviar material</label>
+                        <input type='file' name="files[]" class="mb-2" id="fileInput" multiple >
                     </div>
                     <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
+                    <button class="btn btn-danger ml-2" onclick="sair_material()">Fechar</button>  
                 </form>
             </div>
             <script>
@@ -272,7 +283,6 @@
                     });
                 });
             </script>
-            <button class="btn btn-danger-modal" onclick="sair_material()">x</button>  
         </div>
     </div>
     
