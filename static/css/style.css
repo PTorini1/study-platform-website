@@ -11,6 +11,11 @@
     
 }
 
+.list-unstyled.chat-list{
+    width: fit-content !important;
+    height: fit-content !important;
+}
+
 .container-material, .container-tarefa{
     display: none;
     position: fixed;
