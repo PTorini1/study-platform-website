@@ -1,11 +1,19 @@
 {% extends 'principal.html'%}
 {%block conteudo %}
+<form action ="{{url_for('perfilAluno')}}" method = "post">
 <div class="flex-cadastro formPerfil">
   <div class="cadastro ajustePerfil">
     <h1 style="font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;color:red;">Perfil</h1>
-        <img class="perfil" src="../static/vendor/img/perfil.jpg">
-    
-    <form action ="{{url_for('perfilAluno')}}" method = "post">
+    {% if foto_bd %}
+      <img class="perfil" src="{{url_for('static', filename='uploads/{}'.format(foto_bd))}}" id="imgPerfil" onclick="startVideoFromCamera()">
+    {% else %}
+    <img class="perfil" src="{{url_for('static', filename='uploads/{}'.format(foto_bd))}}" id="imgPerfil" onclick="startVideoFromCamera()">
+    {% endif %}
+    <video id="video" autoplay style="position: fixed; top:15%"></video>
+          <canvas id="canvas" hidden="true"></canvas>
+            <a id="tiraFoto">Tirar Foto</a>
+              <input id="fotoPerfil" name="fotoPerfil" type="text" hidden="true">
+              <input id="testeAbsurdo" name="testeAbsurdo" type="text" hidden="true">
 
       <div class="mb-3">
         <label for="inome" class="form-label posts">Registro do Aluno</label>
@@ -75,8 +83,29 @@
       
       <div class="btn-flex-between">
         <input type="submit" class="btn btn-danger" value="Alterar">
+        <button type="button" class="btn btn-danger btnDeletar" value="Deletar Perfil" onclick="abreModal()">Editar Perfil</button>
+      </div>
+    </form>
+    <form class="frmDeletaPerfil" id="formCancelar" action="{{url_for('deletarPerfilAluno')}}" method = "post">
+      <h2>Atenção !!!</h2>
+      <p>Tem que certeza que gostaria de deletar seu perfil? Essa ação não poderá ser desfeita.</p>
+      <div class="btn-flex-between">
+        <input type="submit" class="btn btn-danger btnDeletar" value="Sim">
+        <button type="button" class="btn btn-danger cancelar" onclick="fechaModal()">Cancelar</button>
       </div>
     </form>
   </div>
 </div>
+</div>
+</div>
+<script>
+  let frmDeletaPerfil = document.getElementById('formCancelar');
+  function abreModal(){
+    frmDeletaPerfil.style.display = "block";
+  }
+  function fechaModal(){
+    frmDeletaPerfil.style.display = "none";
+  }
+</script>
+<script src="{{url_for('static', filename='js/camera.js')}}"></script>
 {%endblock %}

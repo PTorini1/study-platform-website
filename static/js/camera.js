@@ -19,11 +19,8 @@ function startVideoFromCamera(){
         canvas.height = videoElement.videoHeight
         context.drawImage(videoElement, 0 , 0)
         
-        let teste = document.getElementById("fotoPerfil")
-        var teste2 = document.getElementById("testeAbsurdo")
-        let urlImagem = teste.name
-        urlImagem.name = canvas.toDataURL();
-        teste2.value = canvas.toDataURL();
+        var imagemPerfil = document.getElementById("fotoPerfil")
+        imagemPerfil.value = canvas.toDataURL();
 
         canvas.toBlob((blob) => {
             var newImg = document.getElementById('imgPerfil');
@@ -34,7 +31,6 @@ function startVideoFromCamera(){
             };
 
             newImg.src = url;
-            teste.value = url; 
         });
     });
 }

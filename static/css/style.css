@@ -388,3 +388,30 @@ a:hover{
 a.col-md-6.col-lg-4.mb-3{
     text-decoration: none;
 }
+
+
+.btnDeletar{
+    background-color: black !important; 
+    border: black !important; 
+    box-shadow: 1px 1px black !important;
+}
+
+.cancelar{
+    background-color: green !important; 
+    border: green !important; 
+    box-shadow: 1px 1px green !important;
+}
+
+.frmDeletaPerfil{
+    padding: 10px;
+    display:none;
+    position: fixed;
+    width: 300px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+}

@@ -153,9 +153,20 @@ def perfilAluno():
             senha = request.form['senha']
             nm_pai =  request.form['nome_pai']
             nm_mae =  request.form['nome_mae']
+            foto =  request.form['fotoPerfil']
+            
+            filename = nome.replace(" ", "")+".png"
+            print(filename)
+            photo = "static\\uploads\\"+filename
+            starter = foto.find(',')
+            image_data = foto[starter+1:]
+            image_data = bytes(image_data, encoding="ascii")
+            im = Image.open(BytesIO(base64.b64decode(image_data)))
+            im.save(photo)
+            
             cursor= mysql.connection.cursor()  
-            sql_update_qr =  """Update cadastro_aluno set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s,Nome_pai=%s, Nome_mae=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s where RA = %s""" 
-            data_qr = (nome, rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha, ra_)
+            sql_update_qr =  """Update cadastro_aluno set Nome = %s, RG=%s, CPF=%s, Data_Nascimento=%s, Sexo=%s,Nome_pai=%s, Nome_mae=%s, Endereco=%s, Telefone=%s, email=%s, senha=%s,  photo= %s where RA = %s""" 
+            data_qr = (nome, rg, cpf, dt_nasc, sexo, nm_pai, nm_mae, end, tel, email, senha, filename, ra_)
             cursor.execute(sql_update_qr, data_qr)
             mysql.connection.commit()
             cursor.close()
@@ -163,7 +174,7 @@ def perfilAluno():
         except Exception as e :
             print('erro: ', e) 
 
-    return render_template('perfilAluno.html', ra_bd = dados_aluno[0][0], nome_bd = dados_aluno[0][1] ,  rg_bd = dados_aluno[0][2] ,cpf_bd = dados_aluno[0][3],  data_nas_bd = dados_aluno[0][4] ,sexo_bd = dados_aluno[0][5], np_bd = dados_aluno[0][6], nm_bd = dados_aluno[0][7],  end_bd = dados_aluno[0][8], tel_bd = dados_aluno[0][9],  email_bd = dados_aluno[0][10] ,senha_bd = dados_aluno[0][11]) 
+    return render_template('perfilAluno.html', ra_bd = dados_aluno[0][0], nome_bd = dados_aluno[0][1] ,  rg_bd = dados_aluno[0][2] ,cpf_bd = dados_aluno[0][3],  data_nas_bd = dados_aluno[0][4] ,sexo_bd = dados_aluno[0][5], np_bd = dados_aluno[0][6], nm_bd = dados_aluno[0][7],  end_bd = dados_aluno[0][8], tel_bd = dados_aluno[0][9],  email_bd = dados_aluno[0][10], foto_bd = dados_aluno[0][12] ,senha_bd = dados_aluno[0][11]) 
 
 
 @app.route('/perfilProfessor', methods = ['POST', 'GET'])
@@ -184,11 +195,10 @@ def perfilProfessor():
             email = request.form['email']
             senha = request.form['senha']
             formacao =  request.form['formacao']
-            foto =  request.form['testeAbsurdo']
+            foto =  request.form['fotoPerfil']
             disc =  request.form['disc']
             
             filename = nome.replace(" ", "")+".png"
-            print(filename)
             photo = "static\\uploads\\"+filename
             starter = foto.find(',')
             image_data = foto[starter+1:]
@@ -390,6 +400,20 @@ def insertProfessor():
         except Exception as e:
             flash(f'deu erro {e}')
             return render_template('cadastroProfessor.html')
+
+@app.route('/deletarPerfilProfessor', methods=['POST'])
+def deletarPerfilProfessor():
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM cadastro_professor WHERE nif=%s", {dados_prof[0][0]})
+    mysql.connection.commit()
+    return redirect('/')
+
+@app.route('/deletarPerfilAluno', methods=['POST'])
+def deletarPerfilAluno():
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM cadastro_aluno WHERE ra=%s", {dados_aluno[0][0]})
+    mysql.connection.commit()
+    return redirect('/')
 
 @io.on('sendMessage')
 def send_message_handler(msg):

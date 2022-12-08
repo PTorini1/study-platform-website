@@ -174,7 +174,7 @@ var delayed;
         labels, 
         datasets: [{
             label:["Média final por Termo"],
-            data:[98, 88, 90],
+            data:[98, 80, 90],
             fill: true, 
             backgroundColor: gradient,
             tension: 0.5,
