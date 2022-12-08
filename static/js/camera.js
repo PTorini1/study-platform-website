@@ -1,5 +1,5 @@
 function startVideoFromCamera(){
-    const specs = {video:{width:300,height:300}};
+    const specs = {video:{width:300,height:300, facingMode: "user"}};
     const videoElement = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
