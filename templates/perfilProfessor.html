@@ -7,7 +7,7 @@
     {% if foto_bd %}
       <img class="perfil" src="{{url_for('static', filename='uploads/{}'.format(foto_bd))}}" id="imgPerfil" onclick="startVideoFromCamera()">
     {% else %}
-    <img class="perfil" src="{{foto_bd}}" id="imgPerfil" onclick="startVideoFromCamera()">
+    <img class="perfil" src="{{url_for('static', filename='uploads/{}'.format(foto_bd))}}" id="imgPerfil" onclick="startVideoFromCamera()">
     {% endif %}
         <video id="video" autoplay style="position: fixed; top:15%"></video>
           <canvas id="canvas" hidden="true"></canvas>
