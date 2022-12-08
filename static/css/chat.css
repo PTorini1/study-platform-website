@@ -274,7 +274,7 @@ body{
 }
 
 .historico{
-    z-index: 2000;
+    z-index: 1000;
     overflow-y: auto;
     overflow-x: auto;
 }
