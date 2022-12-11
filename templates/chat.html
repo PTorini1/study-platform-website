@@ -29,7 +29,7 @@
           <ul class="list-unstyled chat-list mt-2 mb-0">
             {% for nomeContato in range(y) %}
             <li class="clearfix" id="usuario">
-              <div hidden=true>{{nome[nomeContato]}}</div>
+              <div id="usuario-nome" hidden=true>{{nome[nomeContato]}}</div>
               <div hidden=true>{{id[nomeContato]}}</div>
               <!--<img width="40px" height="40px" {{url_foto}} alt="perfil" />-->
               <div class="about">
@@ -110,7 +110,8 @@
   $(function(){
     $('#usuario').click(function(event){ 
         event.preventDefault()
-        var usuario = $(this)
+        var usuario = $(this).$('#usuario-nome').text()
+        console.log(usuario)
         $('#nome-chat').html(`${usuario}`)
 
         $.ajax({

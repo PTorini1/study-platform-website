@@ -1,33 +1,34 @@
 /* NAVBAR */
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     background-color: transparent;
     width: 5px;
 }
 
-.d-flex.w-100.avatar.ml-2.mt-2.mb-2{
+.d-flex.w-100.avatar.ml-2.mt-2.mb-2 {
     display: flex;
     align-items: center;
-    
 }
 
-.list-unstyled.chat-list{
+.list-unstyled.chat-list {
     width: fit-content !important;
     height: fit-content !important;
 }
 
-.container-material, .container-tarefa{
+.container-material,
+.container-tarefa {
     display: none;
     position: fixed;
     padding: 0;
     top: 0px;
+    left: 0px;
     width: 100vw;
     height: 100vh;
     z-index: 3000;
     align-items: center;
 }
 
-.btn.btn-danger-modal{
+.btn.btn-danger-modal {
     position: absolute;
     top: -30px;
     color: white;
@@ -39,22 +40,22 @@
     right: -30px;
     padding-right: 10px !important;
     border: none;
-    background-color:  rgb(195, 7, 7);
+    background-color: rgb(195, 7, 7);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: bolder;
     border-radius: 50%;
 }
 
-.dis{
+.dis {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.diss{
+.diss {
     font-size: 18px !important;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.material-form{
+.material-form {
     display: flex;
     flex-wrap: wrap;
     width: 90%;
@@ -62,7 +63,7 @@
     text-align: center;
 }
 
-.sairr{
+.sairr {
     position: absolute;
     top: 20px;
     left: 10px;
@@ -70,33 +71,31 @@
     border: none;
 }
 
-.btn.btn-danger-modal:hover{
+.btn.btn-danger-modal:hover {
     background-color: rgb(187, 7, 7);
 }
 
-.modal-material, .modal-tarefa{
+.modal-material,
+.modal-tarefa {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     text-align: center;
-    margin-left: -10px;
-    padding: 0;
     background-color: white;
     width: 100vw;
     height: 100vh;
     box-shadow: 0px 0px 0px 10px white;
 }
 
-.form-input-nome{
+.form-input-nome {
     height: 40px;
-    margin: 3px;
     border: 1px solid rgba(128, 128, 128, 0.612);
     border-radius: 5px;
 }
 
-@media screen and (min-width:1300px){
-    .modal-sala1{
+@media screen and (min-width:1300px) {
+    .modal-sala1 {
         position: relative;
         text-align: center;
         background-color: white;
@@ -107,55 +106,53 @@
     }
 }
 
-
-.comment-button{
+.comment-button {
     border: none;
     padding: 0px;
 }
 
-.input-group{
+.input-group {
     display: block;
     width: 98% !important;
     margin: auto;
 }
 
-
-.carrossel-container-card>h1{
+.carrossel-container-card>h1 {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     text-align: center;
     text-transform: uppercase;
 }
 
-.justify-content-space-between{
+.justify-content-space-between {
     display: flex !important;
     align-items: center;
     justify-content: space-between !important;
 }
 
-.coments-group{
+.coments-group {
     height: fit-content;
 }
 
-.cadastro-login{
+.cadastro-login {
     display: flex;
     justify-content: space-between;
 }
 
-.container-cadastro-login{
+.container-cadastro-login {
     padding: 0px;
     margin: 10px 0px;
 }
 
-.wrap{
+.wrap {
     flex-wrap: wrap;
     margin-bottom: 10px;
 }
 
-.container-cadastro-login p{
+.container-cadastro-login p {
     margin: 10px 0px !important;
 }
 
-.menu-top{
+.menu-top {
     display: flex;
     width: 100%;
     background-color: white;
@@ -165,25 +162,24 @@
     margin: 10px 0px 0px 0px;
 }
 
-.None{
+.None {
     display: none;
 }
 
-.pipe{
+.pipe {
     height: 80%;
-    margin-top: 10px ;
+    margin-top: 10px;
     font-size: 20px;
 }
 
-.carrossel-div{
+.carrossel-div {
     position: relative;
     height: 230px;
     width: 95%;
     margin: auto;
-
 }
 
-.menu-top>button{
+.menu-top>button {
     font-size: 30px;
     margin: 0px 3px;
     color: rgb(255, 47, 47);
@@ -193,52 +189,52 @@
     border: none;
 }
 
-.menu-top>button.desactivate{
+.menu-top>button.desactivate {
     background-color: transparent;
     color: rgba(158, 158, 158, 0.582);
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
     background-image: linear-gradient(to top, rgb(255, 175, 175), rgb(255, 239, 239));
 }
 
-#layout-menu{
+#layout-menu {
     position: fixed;
 }
 
-
-.w-45{
+.w-45 {
     width: 45%;
 }
 
-.flex-row{
+.flex-row {
     display: flex;
     flex-wrap: wrap;
 }
 
-.flex-column{
+.flex-column {
     margin: 10px;
 }
-.abv-mat{
+
+.abv-mat {
     border-radius: 5px;
     background-color: rgba(255, 0, 0, 0.274);
-    width:fit-content;
+    width: fit-content;
     font-weight: bold;
-    padding:5px;
+    padding: 5px;
     margin-right: 10px;
 }
 
-.btn-flex-between{
+.btn-flex-between {
     display: flex;
     justify-content: space-between;
 }
 
-.grupo-botao-login{
+.grupo-botao-login {
     display: flex;
     justify-content: center;
 }
 
-.opcao{
+.opcao {
     display: flex;
     width: 100vw;
     height: 100vh;
@@ -246,17 +242,17 @@
     justify-content: center;
 }
 
-.botao{
+.botao {
     background-color: white !important;
     border-radius: 0px 0px 25px 25px !important;
     margin: 10px;
 }
 
-.botao:hover{
+.botao:hover {
     color: red;
 }
 
-.cadastro{
+.cadastro {
     width: 90%;
     margin: auto;
     background-color: white;
@@ -264,22 +260,21 @@
     border-radius: 1%;
 }
 
-.cadastro h1{
+.cadastro h1 {
     text-align: center;
-    
 }
 
-.filtro{
+.filtro {
     display: flex;
     justify-content: end;
     padding: 20px 0px;
 }
 
-.login{
+.login {
     max-width: 400px;
 }
 
-.flex-login{
+.flex-login {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,130 +282,127 @@
     width: 100vw;
 }
 
+
 /* POSTS */
 
-
-.posts{
+.posts {
     margin-top: 10px;
 }
 
-.postArquivo{
+.postArquivo {
     background-color: white;
     width: 100%;
     border-radius: 5px !important;
     height: 40px;
 }
 
-.perfil{
+.perfil {
     width: 200px;
-    height:200px;
+    height: 200px;
     display: block;
     margin: 0 auto;
     border-radius: 10%;
 }
 
-.formPerfil{
+.formPerfil {
     margin: 3% 0 0 0;
     padding: 0;
 }
 
-.ajustePerfil{
+.ajustePerfil {
     width: 100% !important;
 }
 
-.none{
+.none {
     display: none;
 }
 
-a:hover{
+a:hover {
     color: rgb(124, 22, 22) !important;
 }
 
-.chart{
-    width:50%;
-}
-
-.chart2{
-    width:50%;
-}
-
-.chart3{
+.chart {
     width: 50%;
 }
 
-#dashboard{
+.chart2 {
+    width: 50%;
+}
+
+.chart3 {
+    width: 50%;
+}
+
+#dashboard {
     display: flex;
-    flex-wrap:wrap ;
-    width:100%;
+    flex-wrap: wrap;
+    width: 100%;
     margin: 20px;
 }
 
-@media(max-width:1000px){
-    .chart{
-        width:100%;
+@media(max-width:1000px) {
+    .chart {
+        width: 100%;
     }
-        .menu-top > button{
-            font-size: 15px !important;
-        }
-    
-    
+    .menu-top>button {
+        font-size: 15px !important;
+    }
 }
 
-.comunicado{
+.comunicado {
     border-radius: 10px;
     background-color: white !important;
     margin: 20px 0px;
     padding: 20px;
 }
 
-#ca{
+#ca {
     display: none !important;
     width: 0px;
     left: 50%;
 }
 
-.comunicado h1{
-    color: rgb(124, 22, 22) ;
+.comunicado h1 {
+    color: rgb(124, 22, 22);
     font-family: Georgia, 'Times New Roman', Times, serif;
     text-align: center;
 }
 
-.com-1-flex{
+.com-1-flex {
     display: flex;
     justify-content: space-between;
 }
 
-.com-1{
+.com-1 {
     padding: 25px;
     background-color: rgba(218, 218, 218, 0.322);
 }
 
-a.col-md-6.col-lg-4.mb-3{
+a.col-md-6.col-lg-4.mb-3 {
     text-decoration: none;
 }
 
-
-.btnDeletar{
-    background-color: black !important; 
-    border: black !important; 
+.btnDeletar {
+    background-color: black !important;
+    border: black !important;
     box-shadow: 1px 1px black !important;
 }
 
-.cancelar{
-    background-color: green !important; 
-    border: green !important; 
+.cancelar {
+    background-color: green !important;
+    border: green !important;
     box-shadow: 1px 1px green !important;
 }
 
-.frmDeletaPerfil{
+.frmDeletaPerfil {
     padding: 10px;
-    display:none;
+    display: none;
     position: fixed;
     width: 300px;
     height: 200px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     background-color: white;
     border: 1px solid black;
     border-radius: 10px;

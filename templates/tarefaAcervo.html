@@ -179,19 +179,19 @@
         </div>
     </div>
 </div>
-    
+
 <div class="container-tarefa" id="container-tarefa">
     <div class="modal-tarefa">
         <button class="sairr" onclick="sair_tarefa()">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-          </svg>
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
         </button>
         <div class="mb-3">
             <form method="post" action="/upload_tarefa" enctype="multipart/form-data" class="form-inline material-form">
                 <h1 class="dis mt-2"> Enviar Tarefa </h1>
-                <div class="w-100  d-flex">
-                    <label for="idisciplina" class="form-label diss m-1 mb-2">Disciplina</label>
+                <div class="w-100 d-flex mt-3">
+                    <label for="idisciplina" class="form-label diss mb-2 mr-3">Disciplina</label>
                     <select class="form-select fit-content" name="disciplina-tarefa" id="idisciplina" aria-label="Default select example">
                         <option selected></option>
                         <option value="bd">Banco de Dados</option>
@@ -199,16 +199,74 @@
                         <option value="idm">Interface para Dispositivos Móveis</option>
                     </select>
                 </div>
-                <div class="d-flex w-100">
+                <div class="d-flex w-100 mt-3">
                     <label for="idisciplina" class="form-label diss">Nome da Tarefa<label>
-                    <input class="form-input-nome" type="text" name="title-tarefa">
+                    <input class="form-input w-100 flex-grow-1 ml-3" type="text" name="title-tarefa">
                 </div>
+
                 <div class="w-100 mt-2">
                     <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material-tarefa" id="nome" value= "{{nome_bd}}" required></textarea>
                 </div>
+
                 <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
                 <button class="btn btn-danger ml-2" onclick="sair_tarefa()">Sair</button>  
+                </form>
+                <script>
+                    $(document).ready(function(){
+                        // File type validation
+                        $("#fileInput").change(function(){
+                            var fileLength = this.files.length;
+                            var match= ["image/jpeg","image/png","image/jpg","image/gif"];
+                            var i;
+                            for(i = 0; i < fileLength; i++){ 
+                                var file = this.files[i];
+                                var imagefile = file.type;
+                                if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]))){
+                                    alert('Please select a valid image file (JPEG/JPG/PNG/GIF).');
+                                    $("#fileInput").val('');
+                                    return false;
+                                }
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<div class="container-material" id="container-material">
+    <div class="modal-material">
+        <button class="sairr" onclick="sair_material()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+        </button>
+        <div class="mb-3">
+            <form method="post" action="/upload_acervo" enctype="multipart/form-data" class="form-inline material-form">
+                <h1 class="dis mt-2"> Enviar Material </h1>
+                <div class="w-100  d-flex">
+                    <label for="idisciplina" class="form-label diss mr-3 mb-2">Disciplina</label>
+                    <select class="form-select fit-content" name="disciplina" id="idisciplina" aria-label="Default select example">
+                        <option selected></option>
+                        <option value="bd">Banco de Dados</option>
+                        <option value="pwfe">Programação Front-End</option>
+                        <option value="pwbe">Programação Back-End</option>
+                        <option value="idm">Interface para Dispositivos Móveis</option>
+                    </select>
+                </div>
+                <div class="w-100 mt-2">
+                    <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material" id="nome" value= "{{nome_bd}}" required></textarea>
+                </div>
+                
+                <div class="d-flex w-100 flex-wrap">
+                    <label class="m-1">Enviar material</label>
+                    <input type='file' name="files[]" class="mb-2" id="fileInput" multiple >
+                </div>
+                <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
+                <button class="btn btn-danger ml-2" onclick="sair_material()">Fechar</button>  
             </form>
+        </div>
         <script>
             $(document).ready(function(){
                 // File type validation
@@ -230,93 +288,37 @@
         </script>
     </div>
 </div>
-</div>    
+
+<script>
+    function enviarMaterial(){
+        let container = document.getElementById('container-material') 
+        container.style="display:flex;"
+    }
     
-    <div class="container-material" id="container-material">
-        <div class="modal-material">
-            <button class="sairr" onclick="sair_material()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-              </svg>
-            </button>
-            <div class="mb-3">
-                <form method="post" action="/upload_acervo" enctype="multipart/form-data" class="form-inline material-form">
-                    <h1 class="dis mt-2"> Enviar Material </h1>
-                    <div class="w-100  d-flex">
-                        <label for="idisciplina" class="form-label diss m-1 mb-2">Disciplina</label>
-                        <select class="form-select fit-content" name="disciplina" id="idisciplina" aria-label="Default select example">
-                            <option selected></option>
-                            <option value="bd">Banco de Dados</option>
-                            <option value="pwfe">Programação Front-End</option>
-                            <option value="pwbe">Programação Back-End</option>
-                            <option value="idm">Interface para Dispositivos Móveis</option>
-                        </select>
-                    </div>
-                    <div class="w-100 mt-2">
-                        <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material" id="nome" value= "{{nome_bd}}" required></textarea>
-                    </div>
-                    
-                    <div class="d-flex w-100 flex-wrap">
-                        <label class="m-1">Enviar material</label>
-                        <input type='file' name="files[]" class="mb-2" id="fileInput" multiple >
-                    </div>
-                    <input type="submit" name="submit" class="btn btn-primary" value="Enviar"/>
-                    <button class="btn btn-danger ml-2" onclick="sair_material()">Fechar</button>  
-                </form>
-            </div>
-            <script>
-                $(document).ready(function(){
-                    // File type validation
-                    $("#fileInput").change(function(){
-                        var fileLength = this.files.length;
-                        var match= ["image/jpeg","image/png","image/jpg","image/gif"];
-                        var i;
-                        for(i = 0; i < fileLength; i++){ 
-                            var file = this.files[i];
-                            var imagefile = file.type;
-                            if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]) || (imagefile==match[3]))){
-                                alert('Please select a valid image file (JPEG/JPG/PNG/GIF).');
-                                $("#fileInput").val('');
-                                return false;
-                            }
-                        }
-                    });
-                });
-            </script>
-        </div>
-    </div>
+    function sair_material(){
+        let container = document.getElementById("container-material")
+        container.style="display:none;"
+    }
     
-    <script>
-        function enviarMaterial(){
-            let container = document.getElementById('container-material') 
-            container.style="display:flex;"
-        }
-        
-        function sair_material(){
-            let container = document.getElementById("container-material")
-            container.style="display:none;"
-        }
-        
-        function enviarTarefa(){
-            let container = document.getElementById('container-tarefa') 
-            container.style="display:flex;"
-        }
-        
-        function sair_tarefa(){
-            let container = document.getElementById("container-tarefa")
-            container.style="display:none;"
-        }
-    </script>
+    function enviarTarefa(){
+        let container = document.getElementById('container-tarefa') 
+        container.style="display:flex;"
+    }
     
+    function sair_tarefa(){
+        let container = document.getElementById("container-tarefa")
+        container.style="display:none;"
+    }
+</script>
 
 <!-- LABORATÓRIO -->
 <div class="None" id="laboratorio">
     <div class="flex-column w-100">
         <div class="card h-100 w-100 p-5">
             <h1 class="mb-3 lab">LABORATÓRIO</h1>
-            <textarea placeholder="Coloque o seu código aqui..." class="mb-2" rows="10">
+            <textarea placeholder="Coloque o seu código aqui..." class="mb-2" rows="10" id='textarea'>
                 <!-- CÓDIGO DE EXEMPLO -->
-                <!DOCTYPE html>
+
                 <html lang="en" dir="ltr">
                 <head>
                     <meta charset="utf-8">
@@ -354,23 +356,24 @@
                 
             </textarea>
             <div class="flex-row justify-content-space-between">
-                <button type="button" class="btn btn-dark w-25" onclick="updateIframe()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
-                </svg>
-            </svg></button>
-            <!--
-                <button type="button" class="btn btn-secondary w-25" onclick="updateIframe()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
-                    <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-                </svg> Enviar por Email</button>-->
-            </div> 
-            <h4 class="m-3 text-center text-uppercase">resultado</h4>
-            <iframe id="myframe"> </iframe>
+                <button type="button" class="btn btn-dark w-25" onclick="updateIframe()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                    </svg>
+                </button>
+                <!--
+                    <button type="button" class="btn btn-secondary w-25" onclick="updateIframe()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+                        <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                    </svg> Enviar por Email</button>-->
+                </div> 
+                <h4 class="m-3 text-center text-uppercase">resultado</h4>
+                <iframe id="myframe"> </iframe>
+            </div>
         </div>
     </div>
 </div>
-</div>
-
-
+    
+    
 <script>
     //variaveis de contagem da direção
     
@@ -458,17 +461,17 @@
         
     });
 </script>
-
+    
 <!-- SCRIPT DO LABORATÓRIO -->
-<script type="text/javascript">
+<script>
     function updateIframe(){
         var myFrame = $("#myframe").contents().find('body');
-        var textareaValue = $("textarea").val();
+        var textareaValue = $("#textarea").val();
         myFrame.html(textareaValue);
     }
 </script>
-
-
+    
+    
 <script>
     function Acervo(){
         let botaoAcervo = document.getElementById('Acervo');
