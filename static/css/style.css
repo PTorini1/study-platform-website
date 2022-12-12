@@ -15,6 +15,14 @@
     height: fit-content !important;
 }
 
+.link-baixar:hover{
+    cursor: pointer;
+}
+
+.apagar:hover{
+    color: brown;
+}
+
 .container-material,
 .container-tarefa {
     display: none;

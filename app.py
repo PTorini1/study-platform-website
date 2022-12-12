@@ -32,12 +32,6 @@ app.config['MYSQL_PASSWORD'] = 'b43c3668'
 app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
 
 app.secret_key = "emanuel-gatao"
-# - criando a conexao com o banco -- VERSAO SENAI LOCAL
-# mysql = MySQL(app)
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = ''
-# app.config['MYSQL_DB'] = 'eductech'
 
 io = SocketIO(app)
 # lists data
@@ -209,7 +203,7 @@ def perfilAluno():
             cursor.close()
             return redirect('/')
         except Exception as e :
-            print('erro: ', e) 
+            return redirect('/notfound')
 
     return render_template('perfilAluno.html', ra_bd = dados_aluno[0][0], nome_bd = dados_aluno[0][1] ,  rg_bd = dados_aluno[0][2] ,cpf_bd = dados_aluno[0][3],  data_nas_bd = dados_aluno[0][4] ,sexo_bd = dados_aluno[0][5], np_bd = dados_aluno[0][6], nm_bd = dados_aluno[0][7],  end_bd = dados_aluno[0][8], tel_bd = dados_aluno[0][9],  email_bd = dados_aluno[0][10], foto_bd = dados_aluno[0][12] ,senha_bd = dados_aluno[0][11]) 
 
@@ -252,8 +246,27 @@ def perfilProfessor():
             cursor.close()
             return redirect('/')
         except Exception as e :
-            print('erro: ', e) 
+            return redirect('/notfound')
     return render_template('perfilProfessor.html', nif = dados_prof[0][0],nome_bd = dados_prof[0][1], cpf_bd = dados_prof[0][4], rg_bd = dados_prof[0][3],sexo_bd = dados_prof[0][7], data_nas_bd = dados_prof[0][5], end_bd = dados_prof[0][6], tel_bd = dados_prof[0][8], form_bd = dados_prof[0][2], disc_bd = dados_prof[0][11],  email_bd = dados_prof[0][9], senha_bd = dados_prof[0][10], foto_bd = dados_prof[0][12])
+
+@app.route('/apagar_tarefa/<tarefa>/<id_tarefa>', methods = ['POST', 'GET'])
+def apagar_tarefa(tarefa,id_tarefa):
+    tarefa = tarefa
+    id_tarefa = id_tarefa
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM tarefa_{} WHERE id=%s".format(tarefa), [id_tarefa])
+    mysql.connection.commit()
+    return redirect("/tarefas/{}".format(tarefa))
+
+
+@app.route('/apagar_acervo/<tarefa>/<id_tarefa>', methods = ['POST', 'GET'])
+def apagar_acervo(tarefa,id_tarefa):
+    tarefa = tarefa
+    id_tarefa = id_tarefa
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM acervo_{} WHERE id=%s".format(tarefa), [id_tarefa])
+    mysql.connection.commit()
+    return redirect("/tarefas/{}".format(tarefa))
 
 
 @app.route('/tarefas/<tarefa>')
@@ -264,7 +277,7 @@ def tarefas(tarefa):
     usuario = get_user()
     divs = get_data(curso = tarefa) # fazer um parametreo no get_data p receber o curso no select
     div_tarefa = get_data_tarefa(curso=tarefa)
-    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename, div_tarefa = div_tarefa, tarefa = tarefa)
+    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename, div_tarefa = div_tarefa, tarefa = tarefa, dados_aluno = dados_aluno, dados_prof = dados_prof)
 
 def get_data_tarefa(curso):
     cursor = mysql.connection.cursor()
@@ -301,7 +314,7 @@ def upload_acervo():
     cur = mysql.connection.cursor()
     if request.method == 'POST':
         desc = request.form['descricao-material']
-        disc =  request.form['disciplina']
+        disc =  request.form['disc']
         professor =  dados_prof[0][1] 
         files = request.files.getlist('files[]')
 

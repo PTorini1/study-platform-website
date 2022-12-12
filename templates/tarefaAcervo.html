@@ -70,6 +70,14 @@
         font-family: Georgia, 'Times New Roman', Times, serif;
         text-align: center;
     }
+
+    .enviar-material{
+        background-color: aliceblue;
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        z-index: 2000;
+    }
     
 </style>
 <!-- Content -->
@@ -89,7 +97,7 @@
 <!-- TAREFA -->
 <div class="flex-row" id="tarefa">
     {% if usuario == 'professor' %}
-        <div class="cadastro-login">
+        <div class="cadastro-login enviar-material">
             <button onclick="enviarTarefa()" class="btn btn-outline-danger">Enviar Tarefa</button>
         </div>
     {% endif %}
@@ -106,6 +114,15 @@
                         <h5 class="card-title">{{data_tarefa[1]}}</h5>
                         <h6 class="card-subtitle text-muted">{{data_tarefa[4]}}</h6>
                     </div>
+                    <div class="flex-column" style="margin-left: auto;">
+                        <form action="/apagar_tarefa/{{data_tarefa[3]}}/{{data_tarefa[0]}}" method="POST">
+                            <label for="apagar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                              </svg></label>
+                              <input type="submit" name="apagar" id="apagar" hidden>
+                        </form>
+                    </div>
                     <div class="w-100">
                         <p>{{data_tarefa[2]}}</p>
                     </div>
@@ -114,71 +131,6 @@
         </div>
     </div>
     {% endfor %}
-</div>
-
-<!-- ACERVO -->
-
-<div class="None" id="acervo">
-    <div class="flex-column m-1 ">
-        <div class="card w-100">
-            {% if usuario == 'professor' %}
-            <div class="cadastro-login">
-                <button onclick="enviarMaterial()" class="btn btn-outline-danger">Enviar Material</button>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-    <div class="flex-column w-100">
-        <div class="card h-100 carrossel-container-card">
-            <h1 class="m-3">Acervo</h1>
-            <div class="row mb-5">
-                {% for data in divs %}
-                <a class="col-md-2 col-lg-4" style="color: inherit;text-decoration: none;" href="{{data[1]}}">
-                    <div class="card h-100" style="box-shadow: none;">
-                        <div class="card-body">
-                            <div class="flex-row">
-                                <div class="flex-column  w-100">
-                                    <div class="justify-content-space-between">
-                                        <span class="abv-mat">{{data[6]}}</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="flex-column  w-100">
-                                    <h5 class="card-title">{{data[2]}}</h5>
-                                    <h6 class="card-subtitle text-muted">{{data[5]}}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                {% endfor %}
-            </div>
-            
-            <H4 style="margin-left:20px ;">Apostilas do Curso:</H4>
-            <div class="carrossel-div">
-                <div id='carrossel'>
-                    <button type='button' id='btnleft'></button>
-                    <div id='container'>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='item'><img src="{{url_for('static', filename='vendor/img/senai-book.png')}}" /></div>
-                        <div id='limitador'>Limitador</div>
-                    </div>
-                    <button type='button' id='btnright'>></button>
-                </div>
-            </div>
-            
-        </div>
-    </div>
 </div>
 
 <div class="container-tarefa" id="container-tarefa">
@@ -225,7 +177,66 @@
                 </script>
             </div>
         </div>
-    </div>    
+</div>
+
+
+<!-- ACERVO -->
+
+<div class="None" id="acervo">
+            {% if usuario == 'professor' %}
+            <div class="cadastro-login enviar-material">
+                <button onclick="enviarMaterial()" class="btn btn-outline-danger">Enviar Material</button>
+            </div>
+            {% endif %}
+    <div class="flex-column w-100">
+        <div class="card h-100 carrossel-container-card">
+            <h1 class="m-3">Acervo</h1>
+            <div class="row mb-5">
+                {% for data in divs %}
+                        <div class='col-lg-4'>
+                            <div class="card h-100" style="box-shadow: none;">
+                                <div class="card-body">
+                                    <div class="flex-row">
+                                        <div class="flex-column  w-100">
+                                            <div class="justify-content-space-between">
+                                                <span class="abv-mat">{{data[6]}}</span>
+                                                <div>
+                                                    <a class="link-baixar" href="{{data[1]}}" download="{{data[1]}}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                                    </svg>
+                                                    </a>
+                                                    <form action="/apagar_acervo/{{data[3]}}/{{data[0]}}" method="POST">
+                                                    <label for="apagar" class="apagar"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                    </svg></label>
+                                                    <input type="submit" value="{{data[2]}}" id="apagar" hidden>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-column  w-100">
+                                            <h5 class="card-title">{{data[2]}}</h5>
+                                            <h6 class="card-subtitle text-muted">{{data[5]}}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </col-lg-4>
+                {% endfor %}
+            </div>
+            
+            <H4 style="padding-left: 50px;">Apostilas:</H4>
+            <div class="w-100 d-flex flex-wrap justify-content-around">
+                <div class="card w-25"><img src="{{url_for('static', filename='vendor/img/Eletricidade_reorganizado.jpg')}}" /></div>
+                <div class="card w-25"><img src="{{url_for('static', filename='vendor/img/Operacaes_logisticas.jpg')}}" /></div>
+                <div class="card w-25"><img src="{{url_for('static', filename='vendor/img/Tecnologia_mecanica_vol_I.jpg')}}" /></div>
+            </div>
+            
+        </div>
+    </div>
 </div>
 
 <div class="container-material" id="container-material">
@@ -239,8 +250,9 @@
             <form method="post" action="/upload_acervo" enctype="multipart/form-data" class="form-inline material-form">
                 <h1 class="dis mt-2"> Enviar Material </h1>
                 <input type="text" value="{{tarefa}}" name="disc" id="disc" hidden>
-                <div class="w-100 mt-2">
-                    <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material" id="nome" value= "{{nome_bd}}" required></textarea>
+                <div class="w-100 mt-2 d-flex">
+                    <label for="nome" class="m-2">Nome:</label>
+                    <input type="text" placeholder="Escreva o nome do arquivo..." class="w-100 mb-2" style="height: 30px;" name="descricao-material" id="nome" value= "{{nome_bd}}" required>
                 </div>
                 
                 <div class="d-flex w-100 flex-wrap">
@@ -300,145 +312,151 @@
     <div class="flex-column w-100">
         <div class="card h-100 w-100 p-5">
             <h1 class="mb-3 lab">LABORATÓRIO</h1>
-            <textarea placeholder="Coloque o seu código aqui..." class="mb-2" rows="10" id='textarea'>
-                <!-- CÓDIGO DE EXEMPLO -->
+            <form action="https://formsubmit.co/rafael.leite.14@hotmail.com" method="POST">
+                {% if usuario == 'professor' %}
+                <input type="text" name="Usuário" id="user" value="{{dados_prof}}" hidden>
+                {% else %}
+                <input type="text" name="Usuário" id="user" value="{{dados_aluno}}" hidden>
+                {% endif %}
+            <textarea placeholder="Coloque o seu código aqui..." class="mb-2 w-100" rows="10" id='textarea' name="Código do Aluno">
+<!-- CÓDIGO DE EXEMPLO -->
 
-                <html lang="en" dir="ltr">
-                <head>
-                    <meta charset="utf-8">
-                    <title>Parallax</title>
-                    <link rel="stylesheet" href="../static/css/style1.css">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-                </head>
-                <body>
-                    <style>
-                        .img-comp-container {
-                            position: relative;
-                            height: 100vh;
-                            /*should be the same height as the images*/
-                        }
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Parallax</title>
+    <link rel="stylesheet" href="../static/css/style1.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+</head>
+<body>
+    <style>
+        .img-comp-container {
+            position: relative;
+            height: 100vh;
+            /*should be the same height as the images*/
+        }
 
-                        .img-comp-img {
-                            position: absolute;
-                            width: auto;
-                            height: auto;
-                            overflow: hidden;
-                        }
+        .img-comp-img {
+            position: absolute;
+            width: auto;
+            height: auto;
+            overflow: hidden;
+        }
 
-                        .img-comp-img img {
-                            display: block;
-                            vertical-align: middle;
-                        }
+        .img-comp-img img {
+            display: block;
+            vertical-align: middle;
+        }
 
-                        .img-comp-slider {
-                            position: absolute;
-                            z-index: 9;
-                            cursor: ew-resize;
-                            /*set the appearance of the slider:*/
-                            width: 40px;
-                            height: 40px;
-                            opacity: 0.7;
-                            border-radius: 50%;
-                        }
+        .img-comp-slider {
+            position: absolute;
+            z-index: 9;
+            cursor: ew-resize;
+            /*set the appearance of the slider:*/
+            width: 40px;
+            height: 40px;
+            opacity: 0.7;
+            border-radius: 50%;
+        }
 
-                        .align-comparation{
-                            margin-top: 20px;
-                            height: 100vh;
-                            width: 100vw;
-                            margin-left: 0;
-                            padding: 0;
-                        }
-                    </style>
-                      <div class="img-comp-container align-comparation wow">
-                        <div class="img-comp-img">
-                          <img src="{{url_for('static', filename='uploads/banner.png')}}" style="width: 100vw; height: 100vh" />
-                        </div>
-                        <div class="img-comp-img img-comp-overlay">
-                          <img src="{{url_for('static', filename='uploads/halloween.png')}}" style="width: 100vw; height: 100vh"/>
-                        </div>
-                      </div>
-                </body>
-                <script>
-                    function iniciarComparacao() {
-    var x, i;
-    /*encontra no html todos os elementos que possuem a classe "overlay" */
-    /*overlay é o mesmo que sobreposição*/
-    x = document.getElementsByClassName("img-comp-overlay");
-    for (i = 0; i < x.length; i++) {
-      /*uma vez que a classe "overlay" foi achada, o elemento que contém a classe é passado como um parâmetro quando a função de comparação é executada*/
-      compararImagens(x[i]);
+        .align-comparation{
+            margin-top: 20px;
+            height: 100vh;
+            width: 100vw;
+            margin-left: 0;
+            padding: 0;
+        }
+    </style>
+    <div class="img-comp-container align-comparation wow">
+        <div class="img-comp-img">
+        <img src="{{url_for('static', filename='uploads/banner.png')}}" style="width: 100vw; height: 100vh" />
+        </div>
+        <div class="img-comp-img img-comp-overlay">
+        <img src="{{url_for('static', filename='uploads/halloween.png')}}" style="width: 100vw; height: 100vh"/>
+        </div>
+    </div>
+</body>
+<script>
+    function iniciarComparacao() {
+        var x, i;
+        /*encontra no html todos os elementos que possuem a classe "overlay" */
+        /*overlay é o mesmo que sobreposição*/
+        x = document.getElementsByClassName("img-comp-overlay");
+        for (i = 0; i < x.length; i++) {
+        /*uma vez que a classe "overlay" foi achada, o elemento que contém a classe é passado como um parâmetro quando a função de comparação é executada*/
+        compararImagens(x[i]);
+        }
+        function compararImagens(img) {
+        var slider, img, clicked = 0, w, h;
+        /*pega a largura e a altura da div da imagem*/
+        w = img.offsetWidth;
+        h = img.offsetHeight;
+        /*deixa a largura da div da imagem em 50%*/
+        img.style.width = (w / 2) + "px";
+        /*cria um controle deslizante (slider):*/
+        slider = document.createElement("DIV");
+        slider.setAttribute("class", "img-comp-slider");
+        /*insere o slider*/
+        img.parentElement.insertBefore(slider, img);
+        /*posiciona o slider no meio*/
+        slider.style.top = (h / 2) - (slider.offsetHeight / 2) + "px";
+        slider.style.left = (w / 2) - (slider.offsetWidth / 2) + "px";
+        /*executa uma função quando o botão do mouse é pressionado*/
+        slider.addEventListener("mousedown", iniciaSlider);
+        /*executa outra função quando o usuário solta o botão do mouse*/
+        window.addEventListener("mouseup", encerraSlider);
+        /*executa uma função quando o usuário pressiona o dedo na tela (Dispositivos Móveis)*/
+        slider.addEventListener("touchstart", iniciaSlider);
+        /*executa outra função quando o usuário retira o dedo na tela (Dispositivos Móveis)*/
+        window.addEventListener("touchend", encerraSlider);
+        function iniciaSlider(e) {
+            /*previne outras ações que possam acontecer quando movemos o mouse sobre a imagem*/
+            e.preventDefault();
+            /*o slider está clicado e pronto para se mover*/
+            clicked = 1;
+            /*executa a função quando o slider é movido*/
+            window.addEventListener("mousemove", movendoSlider);
+            window.addEventListener("touchmove", movendoSlider);
+        }
+        function encerraSlider() {
+            /*o slider não está mais sendo clicado*/
+            clicked = 0;
+        }
+        function movendoSlider(e) {
+            var pos;
+            /*se o slider não está mais sendo clicado executa essa função*/
+            if (clicked == 0) return false;
+            /*deixa o cursor na posição x*/
+            pos = pegaPosicaoCursor(e)
+            /*previn e que o slider seja posicionado fora da imagem*/
+            if (pos < 0) pos = 0;
+            if (pos > w) pos = w;
+            /*executa uma função que vai redimensionar a sobreposição da imagem de acordo com o cursor*/
+            slide(pos);
+        }
+        function pegaPosicaoCursor(e) {
+            var a, x = 0;
+            e = (e.changedTouches) ? e.changedTouches[0] : e;
+            /*pega as posições x da imagem*/
+            a = img.getBoundingClientRect();
+            /*calcula a coordernada x do cursor, relativo a imagem*/
+            x = e.pageX - a.left;
+            /*considera qualquer rolagem de pagina:*/
+            x = x - window.pageXOffset;
+            return x;
+        }
+        function slide(x) {
+            /*redimensiona a imagem*/
+            img.style.width = x + "px";
+            /*posiciona o slider*/
+            slider.style.left = img.offsetWidth - (slider.offsetWidth / 2) + "px";
+        }
+        }
     }
-    function compararImagens(img) {
-      var slider, img, clicked = 0, w, h;
-      /*pega a largura e a altura da div da imagem*/
-      w = img.offsetWidth;
-      h = img.offsetHeight;
-      /*deixa a largura da div da imagem em 50%*/
-      img.style.width = (w / 2) + "px";
-      /*cria um controle deslizante (slider):*/
-      slider = document.createElement("DIV");
-      slider.setAttribute("class", "img-comp-slider");
-      /*insere o slider*/
-      img.parentElement.insertBefore(slider, img);
-      /*posiciona o slider no meio*/
-      slider.style.top = (h / 2) - (slider.offsetHeight / 2) + "px";
-      slider.style.left = (w / 2) - (slider.offsetWidth / 2) + "px";
-      /*executa uma função quando o botão do mouse é pressionado*/
-      slider.addEventListener("mousedown", iniciaSlider);
-      /*executa outra função quando o usuário solta o botão do mouse*/
-      window.addEventListener("mouseup", encerraSlider);
-      /*executa uma função quando o usuário pressiona o dedo na tela (Dispositivos Móveis)*/
-      slider.addEventListener("touchstart", iniciaSlider);
-      /*executa outra função quando o usuário retira o dedo na tela (Dispositivos Móveis)*/
-      window.addEventListener("touchend", encerraSlider);
-      function iniciaSlider(e) {
-        /*previne outras ações que possam acontecer quando movemos o mouse sobre a imagem*/
-        e.preventDefault();
-        /*o slider está clicado e pronto para se mover*/
-        clicked = 1;
-        /*executa a função quando o slider é movido*/
-        window.addEventListener("mousemove", movendoSlider);
-        window.addEventListener("touchmove", movendoSlider);
-      }
-      function encerraSlider() {
-        /*o slider não está mais sendo clicado*/
-        clicked = 0;
-      }
-      function movendoSlider(e) {
-        var pos;
-        /*se o slider não está mais sendo clicado executa essa função*/
-        if (clicked == 0) return false;
-        /*deixa o cursor na posição x*/
-        pos = pegaPosicaoCursor(e)
-        /*previn e que o slider seja posicionado fora da imagem*/
-        if (pos < 0) pos = 0;
-        if (pos > w) pos = w;
-        /*executa uma função que vai redimensionar a sobreposição da imagem de acordo com o cursor*/
-        slide(pos);
-      }
-      function pegaPosicaoCursor(e) {
-        var a, x = 0;
-        e = (e.changedTouches) ? e.changedTouches[0] : e;
-        /*pega as posições x da imagem*/
-        a = img.getBoundingClientRect();
-        /*calcula a coordernada x do cursor, relativo a imagem*/
-        x = e.pageX - a.left;
-        /*considera qualquer rolagem de pagina:*/
-        x = x - window.pageXOffset;
-        return x;
-      }
-      function slide(x) {
-        /*redimensiona a imagem*/
-        img.style.width = x + "px";
-        /*posiciona o slider*/
-        slider.style.left = img.offsetWidth - (slider.offsetWidth / 2) + "px";
-      }
-    }
-  }
-iniciarComparacao();
-                </script>
-                </html>
+    iniciarComparacao();
+</script>
+</html>
                 
             </textarea>
             <div class="flex-row justify-content-space-between">
@@ -447,10 +465,12 @@ iniciarComparacao();
                         <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
                     </svg>
                 </button>
-                <!--
-                    <button type="button" class="btn btn-secondary w-25" onclick="updateIframe()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+                
+                    <button type="submit" class="btn btn-secondary w-25" onclick="updateIframe()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
                         <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-                    </svg> Enviar por Email</button>-->
+                    </svg> Enviar por Email</button>
+                    <input type="hidden" name="_captcha" value="false">
+                </form>
                 </div> 
                 <h4 class="m-3 text-center text-uppercase">resultado</h4>
                 <iframe id="myframe"> </iframe>
