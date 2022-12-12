@@ -55,12 +55,21 @@ def allowed_file(filename):
 # -- routes
 @app.route('/')
 def login():
+    usr = []
     return render_template('login.html')
 
 @app.route('/home')  
 def home():
     usuario = get_user()
     return render_template('home.html', usuario = usuario)
+
+def get_user():         
+    if usr[0] == 'professor':
+        usur = 'professor'
+        return usur
+    elif usr[0] == 'aluno':
+        usur = 'aluno'  
+        return usur
 
 @app.route('/cadastrar_aluno')
 def cadastroAluno():
@@ -73,6 +82,14 @@ def cadastroProfessor():
 @app.route('/calendar')
 def calendario():
     return render_template('calendar.html')
+
+def get_user():         
+    if usr[0] == 'professor':
+        usur = 'professor'
+        return usur
+    elif usr[0] == 'aluno':
+        usur = 'aluno'  
+        return usur
 
 @app.route('/chat', methods = ['POST', 'GET'])
 def chat():
@@ -128,9 +145,25 @@ def insereMensagens(id_usuario, id_recebedor):
         except:
             render_template('chat.html')
 
+def get_user():         
+    if usr[0] == 'professor':
+        usur = 'professor'
+        return usur
+    elif usr[0] == 'aluno':
+        usur = 'aluno'  
+        return usur
+
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+def get_user():         
+    if usr[0] == 'professor':
+        usur = 'professor'
+        return usur
+    elif usr[0] == 'aluno':
+        usur = 'aluno'  
+        return usur
 
 @app.route('/perfilAluno', methods = ['POST', 'GET'])
 def perfilAluno():
@@ -245,7 +278,6 @@ def get_file(curso):
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT * from acervo_{} where disciplina ='{}'".format(curso, curso))
     rows = cursor.fetchall()    
-   
     return rows
 
 def get_user():         
