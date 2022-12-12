@@ -23,6 +23,10 @@
     color: brown;
 }
 
+#usuario:hover{
+    cursor: pointer;
+}
+
 .container-material,
 .container-tarefa {
     display: none;

@@ -95,40 +95,35 @@ def chat():
     ids = []
     id_usuario = 0
     id_recebedor = 0
+    user = get_user()
     
     cursor = mysql.connection.cursor()
-    cursor2 = mysql.connection.cursor()
-    
-    if(usr[0] == 'professor'):
+
+    if(user == 'professor'):
         id_usuario = dados_prof[0][0]
-        cursor.execute('SELECT RA, Nome, photo FROM cadastro_aluno')
-        cursor2.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario =%s', {id_usuario})
+        cursor.execute('SELECT * FROM cadastro_aluno')
+        contatos = cursor.fetchall()
+        cursor.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario =%s', {id_usuario})
+        mensagens = cursor.fetchall()
     else:
         id_usuario = dados_aluno[0][0]
-        cursor.execute('SELECT NIF, Nome, photo FROM cadastro_professor')
-        cursor2.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario=%s',{id_usuario})
+        cursor.execute('SELECT * FROM cadastro_professor')
+        contatos = cursor.fetchall()
+        cursor.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario=%s',{id_usuario})
+        mensagens = cursor.fetchall()
     
     insereMensagens(id_usuario, id_recebedor)
     
-    if(usr[0] == 'professor'):
-        id_usuario = dados_prof[0][0]
-        cursor.execute('SELECT RA, Nome, photo FROM cadastro_aluno')
-        cursor2.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario =%s', {id_usuario})
-    else:
-        id_usuario = dados_aluno[0][0]
-        cursor.execute('SELECT NIF, Nome, photo FROM cadastro_professor')
-        cursor2.execute('SELECT * FROM chat WHERE id_recebedor OR id_usuario=%s',{id_usuario})
-    
-    contatos = cursor.fetchall()
     y = len(contatos)
-    mensagens = cursor2.fetchall()
+    print(contatos)
     z = len(mensagens)
+    print(mensagens)
     
     for n in range(y):
-        ids.append(contatos[n][0])
+        ids.append(contatos[n][1])
         nomes.append(contatos[n][1])
             
-    return render_template('chat.html', nome = nomes, contato = contatos, y=y, id = ids, mensagem = mensagens, z=z, id_usuario = id_usuario, id_recebedor = id_recebedor)
+    return render_template('chat.html', nome = nomes, contato = contatos, y=y, id = ids, mensagem = mensagens, z=z, id_usuario = id_usuario, id_recebedor = id_recebedor, user = user)
     
 def insereMensagens(id_usuario, id_recebedor):
     if request.method == 'POST':
