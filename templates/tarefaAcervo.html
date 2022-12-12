@@ -89,11 +89,9 @@
 <!-- TAREFA -->
 <div class="flex-row" id="tarefa">
     {% if usuario == 'professor' %}
-    <div class="card m-1">
         <div class="cadastro-login">
             <button onclick="enviarTarefa()" class="btn btn-outline-danger">Enviar Tarefa</button>
         </div>
-    </div>
     {% endif %}
     
     {% for data_tarefa in div_tarefa %}
@@ -102,11 +100,14 @@
             <div class="card-body">
                 <div class="flex-row">
                     <div class="flex-column">
-                        <p class="abv-mat">{{data_tarefa[3]}}</p>
+                        <p class="abv-mat">{{data_tarefa[5]}}</p>
                     </div>
                     <div class="flex-column">
-                        <h5 class="card-title">{{data_tarefa[4]}}</h5>
-                        <h6 class="card-subtitle text-muted">{{data_tarefa[5]}}</h6> <!--data-postagem-->
+                        <h5 class="card-title">{{data_tarefa[1]}}</h5>
+                        <h6 class="card-subtitle text-muted">{{data_tarefa[4]}}</h6>
+                    </div>
+                    <div class="w-100">
+                        <p>{{data_tarefa[2]}}</p>
                     </div>
                 </div>
             </div>
@@ -190,15 +191,7 @@
         <div class="mb-3">
             <form method="post" action="/upload_tarefa" enctype="multipart/form-data" class="form-inline material-form">
                 <h1 class="dis mt-2"> Enviar Tarefa </h1>
-                <div class="w-100 d-flex mt-3">
-                    <label for="idisciplina" class="form-label diss mb-2 mr-3">Disciplina</label>
-                    <select class="form-select fit-content" name="disciplina-tarefa" id="idisciplina" aria-label="Default select example">
-                        <option selected></option>
-                        <option value="bd">Banco de Dados</option>
-                        <option value="pwfe">Programação Front-End</option>
-                        <option value="idm">Interface para Dispositivos Móveis</option>
-                    </select>
-                </div>
+                <input type="text" value="{{tarefa}}" name="disc" hidden>
                 <div class="d-flex w-100 mt-3">
                     <label for="idisciplina" class="form-label diss">Nome da Tarefa<label>
                     <input class="form-input w-100 flex-grow-1 ml-3" type="text" name="title-tarefa">
@@ -245,16 +238,7 @@
         <div class="mb-3">
             <form method="post" action="/upload_acervo" enctype="multipart/form-data" class="form-inline material-form">
                 <h1 class="dis mt-2"> Enviar Material </h1>
-                <div class="w-100  d-flex">
-                    <label for="idisciplina" class="form-label diss mr-3 mb-2">Disciplina</label>
-                    <select class="form-select fit-content" name="disciplina" id="idisciplina" aria-label="Default select example">
-                        <option selected></option>
-                        <option value="bd">Banco de Dados</option>
-                        <option value="pwfe">Programação Front-End</option>
-                        <option value="pwbe">Programação Back-End</option>
-                        <option value="idm">Interface para Dispositivos Móveis</option>
-                    </select>
-                </div>
+                <input type="text" value="{{tarefa}}" name="disc" id="disc" hidden>
                 <div class="w-100 mt-2">
                     <textarea style="height: 200px;max-height:300px;" type="text" placeholder="Escreva alguma descrição para o material..." class="w-100 mb-2" name="descricao-material" id="nome" value= "{{nome_bd}}" required></textarea>
                 </div>
@@ -330,42 +314,41 @@
                 <body>
                     <style>
                         .img-comp-container {
-    position: relative;
-    height: 100vh;
-    /*should be the same height as the images*/
-}
+                            position: relative;
+                            height: 100vh;
+                            /*should be the same height as the images*/
+                        }
 
-.img-comp-img {
-    position: absolute;
-    width: auto;
-    height: auto;
-    overflow: hidden;
-}
+                        .img-comp-img {
+                            position: absolute;
+                            width: auto;
+                            height: auto;
+                            overflow: hidden;
+                        }
 
-.img-comp-img img {
-    display: block;
-    vertical-align: middle;
-}
+                        .img-comp-img img {
+                            display: block;
+                            vertical-align: middle;
+                        }
 
-.img-comp-slider {
-    position: absolute;
-    z-index: 9;
-    cursor: ew-resize;
-    /*set the appearance of the slider:*/
-    width: 40px;
-    height: 40px;
-    background-color: rgb(15, 177, 136);
-    opacity: 0.7;
-    border-radius: 50%;
-}
+                        .img-comp-slider {
+                            position: absolute;
+                            z-index: 9;
+                            cursor: ew-resize;
+                            /*set the appearance of the slider:*/
+                            width: 40px;
+                            height: 40px;
+                            opacity: 0.7;
+                            border-radius: 50%;
+                        }
 
-.align-comparation{
-    margin-top: 20px;
-    height: 100vh;
-    width: 100vw;
-    margin-left: 0;
-    padding: 0;
-}
+                        .align-comparation{
+                            margin-top: 20px;
+                            height: 100vh;
+                            width: 100vw;
+                            margin-left: 0;
+                            padding: 0;
+                        }
                     </style>
                       <div class="img-comp-container align-comparation wow">
                         <div class="img-comp-img">

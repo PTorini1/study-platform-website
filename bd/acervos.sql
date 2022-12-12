@@ -137,3 +137,15 @@ CREATE TABLE `acervo_siso` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
+CREATE TABLE `acervo_fpoo` (
+	`id`            INT(3) NOT NULL AUTO_INCREMENT,
+	`file_name`     VARCHAR(255) NOT NULL COLLATE 'utf8_unicode_ci',
+	`descricao`     VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`disciplina`    VARCHAR(10) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`professor`     VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;

@@ -58,6 +58,10 @@ def login():
     usr = []
     return render_template('login.html')
 
+@app.route('/notfound')
+def notfound():
+    return render_template('notfound.html')
+
 @app.route('/home')  
 def home():
     usuario = get_user()
@@ -260,7 +264,7 @@ def tarefas(tarefa):
     usuario = get_user()
     divs = get_data(curso = tarefa) # fazer um parametreo no get_data p receber o curso no select
     div_tarefa = get_data_tarefa(curso=tarefa)
-    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename, div_tarefa = div_tarefa)
+    return render_template('tarefaAcervo.html', divs = divs, usuario = usuario, filename = filename, div_tarefa = div_tarefa, tarefa = tarefa)
 
 def get_data_tarefa(curso):
     cursor = mysql.connection.cursor()
@@ -337,7 +341,7 @@ def upload_tarefa():
     cur = mysql.connection.cursor()
     if request.method == 'POST':
         desc = request.form['descricao-material-tarefa']
-        disc =  request.form['disciplina-tarefa']
+        disc =  request.form['disc']
         title =  request.form['title-tarefa']
         professor =  dados_prof[0][1] 
         dia_postagem  = datetime.date.today()
