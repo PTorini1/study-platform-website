@@ -111,7 +111,8 @@
     $('#usuario').click(function(event){ 
         event.preventDefault()
         var usuario = $(this).text()
-        $('#nome-chat').html(`${usuario}`)
+        let usuario_nome = usuario.split(' ')
+        $('#nome-chat').html(`${usuario_nome[0]}`)
 
         $.ajax({
             url:"/chat",
