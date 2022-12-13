@@ -29,17 +29,13 @@
           <ul class="list-unstyled chat-list mt-2 mb-0">
             {% for nomeContato in range(y) %}
             <li class="clearfix" id="usuario">
-              <div id="usuario-nome" hidden=true>{{nome[nomeContato]}}</div>
+              <div hidden=true>{{nome[nomeContato]}}</div>
               <div hidden=true>{{id[nomeContato]}}</div>
               <!--<img width="40px" height="40px" {{url_foto}} alt="perfil" />-->
               <div class="about">
-                <div class="nameChat">{{contato[0][1]}}</div>
+                <div class="nameChat">{{nome[nomeContato]}}</div>
                 <div class="status">
-                  {% if usuario == 'professor' %}
-                  <i class="fa fa-circle online"></i> Professor
-                  {% else %}
-                  <i class="fa fa-circle offilne"></i> Aluno
-                  {% endif %}
+                  <i class="fa fa-circle offline"></i> Aluno
                 </div>
               </div>
             </li>
@@ -114,8 +110,7 @@
   $(function(){
     $('#usuario').click(function(event){ 
         event.preventDefault()
-        var usuario = $('#usuario-nome').text()
-        console.log(usuario)
+        var usuario = $(this)
         $('#nome-chat').html(`${usuario}`)
 
         $.ajax({
