@@ -334,7 +334,7 @@ a:hover {
 }
 
 .chart {
-    width: 50%;
+    width: 49.5%;
 }
 
 .chart2 {
@@ -354,10 +354,20 @@ a:hover {
 
 @media(max-width:1000px) {
     .chart {
-        width: 100%;
+        margin-left: 2vw;
+        width: 90%;
     }
     .menu-top>button {
         font-size: 15px !important;
+    }
+    .chart2 {
+        margin-left: 2vw;
+        width: 90%;
+    }
+    
+    .chart3 {
+        margin-left: 2vw;
+        width: 90%;
     }
 }
 

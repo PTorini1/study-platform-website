@@ -1,37 +1,33 @@
 // Pega os dados que estão dentro da div no html
-
-
-
 var delayed;
 {
     
     const ctx = document.getElementById('myChart').getContext("2d");
-    let gradient = ctx.createLinearGradient(0,0,0,800);
-    gradient.addColorStop(0,'rgb(138, 28, 28)');
-    gradient.addColorStop(1,'rgb(220, 53, 69)');
-    
-    let labels = [
-        'Elétrica',
-        'Des. de Sistemas',
-        'Ferramentaria',
-    ];
     
     const data = {
-        labels, 
+        labels: [
+            'Teoria',
+            'Trabalho em Grupo',
+            'Liderança',
+            'Prática',
+            'Criatividade',
+        ],
         datasets: [{
-            data:[99, 95, 90,],
-            label:["Média por Curso"],
-            fill: true,
-            backgroundColor: gradient,
-            borderColor: "#000",
-            pointBackgroundcolor: "#000",
-            tension: 0.5
+          label: 'My First Dataset',
+          data: [90, 75, 89, 65, 78],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(125, 99, 92)',
+            'rgb(236, 19, 12)',
+            'rgb(226, 10, 93)',
+            'rgb(96, 19, 12)'
+          ]
         }]
-    }
+      };
     
     
     const config = {
-        type:'bar',
+        type:'polarArea',
         data:data,
         options: {
             radius: 5,
@@ -69,6 +65,12 @@ var delayed;
         'PWFE',
         'PWBE',
         'BD',
+        'SISO',
+        'PROJ',
+        'FPOO',
+        'LALG',
+        'HDWR',
+        'LMAR',
     ];
     
     let gradient = ctx2.createLinearGradient(0,0,0,800);
@@ -78,8 +80,8 @@ var delayed;
     const data2 = {
         labels, 
         datasets: [{
-            data:[89, 95, 100, 80],
-            label:["Notas por matéria"],
+            data:[89, 95, 100, 80.89,90,91,99,100,100,98],
+            label:["Notas por Matéria"],
             fill: true, 
             backgroundColor: gradient,
             borderColor: "#000",
@@ -91,7 +93,7 @@ var delayed;
         type:'bar',
         data:data2,
         options: {
-            indexAxis: 'y',
+            indexAxis: 'x',
             radius: 5,
             hitRadius: 30,
             hoverRadius: 12,
