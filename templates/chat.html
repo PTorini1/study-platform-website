@@ -110,7 +110,7 @@
   $(function(){
     $('#usuario').click(function(event){ 
         event.preventDefault()
-        var usuario = $(this)
+        var usuario = $(this).text()
         $('#nome-chat').html(`${usuario}`)
 
         $.ajax({
