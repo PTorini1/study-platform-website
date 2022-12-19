@@ -6,7 +6,7 @@ We had to develop a responsive platform for schools to make things easier betwee
 
 In this platform teachers can send homeworks, alerts and didatic material. The students can see the teachers' posts and talk to them using the chat besides practice the  exercises using our laboratory.
 
-All of theses functionalities are actually working, it's not just illustrative.
+All of these functionalities are actually working, it's not just illustrative.
 
 As we're supposed to use Python, we chose Flask as our framework.
 
