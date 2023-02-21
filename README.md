@@ -4,7 +4,7 @@ Project made for the second semester of System Development course in SENAI Manue
 
 We had to develop a responsive platform for schools to make things easier between students and teachers.
 
-In this platform teachers can send homeworks, alerts and didatic material. The students can see the teachers' posts and talk to them using the chat besides practice the  exercises using our laboratory.
+In this platform teachers can send homeworks, alerts and didatic material. The students can see teachers' posts and talk to them using the chat besides practice the  exercises using our laboratory.
 
 All of these functionalities are actually working, it's not just illustrative.
 
