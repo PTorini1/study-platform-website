@@ -26,10 +26,10 @@ io = SocketIO(app)
 
 #- criando a conexao com o banco -- VERSAO HEROKU
 mysql = MySQL(app)
-app.config['MYSQL_HOST'] = 'us-cdbr-east-06.cleardb.net'
-app.config['MYSQL_USER'] = 'be833ebed6b2ed'
-app.config['MYSQL_PASSWORD'] = 'b43c3668'
-app.config['MYSQL_DB'] = 'heroku_3624ff9c487b5c5'
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'eductech'
 
 app.secret_key = "emanuel-gatao"
 
