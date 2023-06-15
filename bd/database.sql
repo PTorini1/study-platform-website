@@ -1,2 +1,0 @@
-CREATE database heroku_3624ff9c487b5c5;
-USE heroku_3624ff9c487b5c5;
