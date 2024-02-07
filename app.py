@@ -1,5 +1,3 @@
-# EU ODEIO FLAAAAAAAASSSSSSSK
-
 import functools
 from flask import Flask,render_template, request, flash, send_from_directory
 from flask_mysqldb import MySQL
